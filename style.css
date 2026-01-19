@@ -1,0 +1,485 @@
+body{
+font-family: Arial;
+padding:10px;
+background:#f2f2f2;
+}
+
+/* ================= FORM ================= */
+
+.form{
+background:white;
+padding:10px;
+border:1px solid #aaa;
+margin-bottom:10px;
+}
+
+.form input{
+padding:6px;
+margin:3px;
+width:150px;
+}
+
+button{
+padding:7px 12px;
+margin:3px;
+cursor:pointer;
+}
+
+/* ================= BILL ================= */
+
+#bill{
+width:210mm;
+height:297mm;
+margin:auto;
+padding:12mm;
+background:white;
+border:3px solid black;
+box-sizing:border-box;
+position:relative;
+}
+
+/* HEADER */
+
+.top{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 65px;
+  line-height: 17px;
+}
+
+/* LEFT LOGO CONTROL */
+
+.left-logo{
+  position:absolute;
+  top:0px;      /* move up/down */
+  left:0px;     /* move left/right */
+}
+
+.left-logo img{
+  height:170px;   /* control size */
+  width:auto;
+}
+
+/* RIGHT LOGO CONTROL */
+
+.right-logo{
+  position:absolute;
+  top:30px;      /* move up/down */
+  right:10px;    /* move left/right */
+}
+
+.right-logo img{
+  height:90px;   /* control size */
+  width:auto;
+}
+
+.logo{
+  height:35px;   /* control size */
+  width:auto;
+}
+
+/* PAGE CENTER TITLE (TRUE CENTER) */
+
+.page-center{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  width:100%;
+  pointer-events:none; /* avoid overlap click issues */
+}
+
+/* TITLE STYLING */
+
+.title .main{
+  color:#c40000;
+  font-size:30px;
+  font-weight:bold;
+  line-height: 20px;
+}
+
+.title .sub{
+  color:#c40000;
+  font-size:15px;
+  font-weight:bold;
+  line-height: 20px;
+}
+
+.title .small{
+  font-size:12px;
+}
+
+/* SUBJECT */
+
+.jurisdiction{
+color:#c40000;
+text-align:center;
+font-size:12px;
+font-weight:bold;
+margin:5px 0;
+line-height: 20px;
+}
+
+/* PARTY */
+
+.row{
+  display:grid;
+  grid-template-columns:70% 30%;
+  font-size:13px;
+  margin-top:8px;
+  padding:5px 0;
+}
+
+/* Party block lines */
+
+.party-center{
+  padding:6px 0;
+  margin-bottom:6px;
+}
+
+.right{text-align:right;}
+
+/* PARTY CENTER */
+
+.party-center{
+  text-align:center;
+  font-size:13px;
+  padding:6px 0;
+}
+
+/* BILL + DATE SAME LINE */
+
+.bill-date-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+  padding:6px 4px;
+}
+
+.bill-left{
+  text-align:left;
+}
+
+.date-right{
+  text-align:right;
+}
+
+/* Center only party name & address values */
+
+#pParty,
+#pAddress{
+  display:inline-block;
+  width:90%;
+  text-align:center;
+}
+
+.address-line{
+  text-align:center;
+  font-size:12px;
+  white-space:nowrap;   /* keeps it in single line */
+}
+
+/* Party row layout fix */
+
+.party-line{
+  display:grid;
+  grid-template-columns: 80px auto;
+  align-items:center;
+  border-bottom: 2px solid black;
+}
+
+.party-label{
+  text-align:left;
+  font-weight:bold;
+}
+
+.party-value{
+  text-align:center;
+  width:100%;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+table-layout:fixed;
+font-size:13px;
+margin-top:5px;
+}
+
+th{
+border:1px solid black;
+background:#e8e8e8;
+padding:6px;
+}
+
+td{
+border:1px solid black;
+height:600px;
+padding:6px;
+vertical-align:top;
+word-wrap:break-word;
+white-space:normal;
+}
+
+/* FIXED WIDTH */
+
+th:nth-child(1), td:nth-child(1){ width:20%; }
+th:nth-child(2), td:nth-child(2){ width:20%; }
+th:nth-child(3), td:nth-child(3){ width:20%; }
+th:nth-child(4), td:nth-child(4){ width:20%; }
+th:nth-child(5), td:nth-child(5){ width:20%; }
+th:nth-child(6), td:nth-child(6){ width:20%; }
+th:nth-child(7), td:nth-child(7){ width:20%; }
+
+/* TOTAL */
+
+.total-box{
+display:grid;
+grid-template-columns:80% 20%;
+border-left:1px solid black;
+border-right:1px solid black;
+border-bottom:2px solid black;
+}
+
+.total-left{padding:5px;}
+.total-right{
+border-left:1px solid black;
+text-align:center;
+font-weight:bold;
+padding:5px;
+}
+
+/* WORDS */
+
+.words{
+border-bottom:2px solid black;
+padding:6px;
+font-weight:bold;
+}
+
+/* SIGN */
+
+.sign{
+position:absolute;
+right:40px;
+bottom:60px;
+font-weight:bold;
+}
+
+/* FOOTER */
+
+.footer{
+position:absolute;
+bottom:20px;
+left:12mm;
+right:12mm;
+font-size:11px;
+color:#b00000;
+text-align:center;
+}
+
+
+.input-box{
+position:relative;
+display:inline-block;
+margin:5px;
+}
+
+/* INPUT */
+
+.input-box input{
+width:170px;
+height:34px;
+padding:5px 70px 5px 8px; /* LEFT SPACE FOR TOOLS + RIGHT SPACE FOR DATE ICON */
+font-size:14px;
+border:1px solid #bbb;
+border-radius:5px;
+}
+
+/* TOOL BAR */
+
+.tools{
+position:absolute;
+right:4px;
+top:50%;
+transform:translateY(-50%);
+display:flex;
+gap:4px;
+opacity:0;
+pointer-events:none;
+transition:0.2s;
+}
+
+/* SHOW TOOLS ONLY ON FOCUS */
+
+.input-box:focus-within .tools{
+opacity:1;
+pointer-events:auto;
+}
+
+/* SIZE DROPDOWN */
+
+.tools select{
+height:26px;
+font-size:11px;
+border:1px solid #ccc;
+border-radius:4px;
+cursor:pointer;
+}
+
+/* COLOR ICON */
+
+.tools input[type=color]{
+width:22px;
+height:22px;
+border:none;
+background:none;
+cursor:pointer;
+padding:0;
+}
+
+/* ROUND COLOR */
+
+.tools input[type=color]::-webkit-color-swatch{
+border-radius:50%;
+border:1px solid #888;
+}
+
+.tools input[type=color]::-webkit-color-swatch-wrapper{
+padding:0;
+}
+
+/* ===== MOBILE A4 PERFECT FIT ===== */
+
+@media (max-width: 768px) {
+
+  body{
+    overflow-x: hidden;
+  }
+
+  /* Bill wrapper center */
+
+#bill{
+    width: 175mm;
+    height: 168vh;
+    margin: 0 auto;
+    transform: translateX(-50%) scale(0.55);
+    left: 50%;
+    position: relative;
+    transform-origin: top center;
+}
+
+.sign{
+    bottom: 70px;
+  }
+
+  /* Prevent table overflow */
+
+  table{
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  th, td{
+    font-size: 11px;
+    padding: 4px;
+    word-break: break-word;
+  }
+
+  /* Logo size control */
+
+.left-logo img{
+    width: 130px;
+    height: auto;
+  }
+
+.right-logo img{
+    width: 150px;
+    height: auto;
+  }
+
+  .logo{
+    width: 90px;
+    height: auto;
+  }
+
+  /* Title readability */
+
+  .title .main{
+    font-size: 25px;
+  }
+
+  .title .sub{
+    font-size: 14px;
+  }
+
+  .title .small{
+    font-size: 13px;
+  }
+
+}
+
+
+@media print {
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: white !important;
+  }
+
+  /* Hide everything except bill */
+  body * {
+    visibility: hidden;
+  }
+
+  #bill, #bill * {
+    visibility: visible;
+  }
+
+  /* Force A4 layout */
+  #bill {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 210mm !important;
+    min-height: 297mm !important;
+
+    transform: none !important;
+    scale: 1 !important;
+    margin: 0 !important;
+  }
+
+  
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+}
+
+.export-mode #bill {
+  width: 210mm !important;
+  min-height: 297mm !important;
+  transform: none !important;
+  scale: 1 !important;
+  margin: 0 auto !important;
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  #bill {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+  }
+}
