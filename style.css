@@ -111,6 +111,20 @@ position:relative;
   font-size:12px;
 }
 
+/* Header contact styling */
+
+.email,
+.contact {
+  color: #0066cc;        /* Change to any color you want */
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.gst{
+  text-decoration: underline;
+  color:#b00000;
+}
+
 /* SUBJECT */
 
 .jurisdiction{
@@ -174,6 +188,23 @@ line-height: 20px;
   display:inline-block;
   width:90%;
   text-align:center;
+}
+
+#pBill,
+#pDate {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+}
+
+#pDatee,
+#pLR,
+#pInvoice,
+#pVehicle,
+#pFrom,
+#pTo,
+#pAmount{
+  text-align: center;
+
 }
 
 .address-line{

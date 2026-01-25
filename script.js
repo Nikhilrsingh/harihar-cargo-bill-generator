@@ -394,3 +394,15 @@ function exportAction(callback) {
 
   }, 400);
 }
+
+window.onload = function(){
+
+document.querySelectorAll(".tools select").forEach(select=>{
+  applySize(select);
+});
+
+document.querySelectorAll(".tools input[type=color]").forEach(color=>{
+  applyColor(color);
+});
+
+};
