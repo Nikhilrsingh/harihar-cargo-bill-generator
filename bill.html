@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Harihar Cargo Bill Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="./bill.css">
+</head>
+<body>
+
+<div class="form">
+<div class="form-inputs">
+<div class="input-box">
+<input id="party" placeholder="Party Name" data-target="pParty">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px">14</option>
+<option value="16px">16</option>
+<option value="18px">18</option>
+<option value="20px"selected>20</option>
+</select>
+<input type="color" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="address" placeholder="Address" data-target="pAddress">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px">14</option>
+<option value="16px"selected>16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="billno" placeholder="Bill No" data-target="pBill">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px">14</option>
+<option value="16px"selected>16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" value="#c40000" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input type="date" id="date" data-target="pDate">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px">14</option>
+<option value="16px"selected>16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" value="#c40000" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="lrno" placeholder="LR No" data-target="pLR">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px" selected>14</option>
+<option value="16px">16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input type="date" id="Datee" data-target="pDatee">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px" selected>14</option>
+<option value="16px">16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="invoice" placeholder="Invoice" data-target="pInvoice">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px" selected>14</option>
+<option value="16px">16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="vehicle" placeholder="Lorry No" data-target="pVehicle">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px" selected>14</option>
+<option value="16px">16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" value="#0066cc" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="from" placeholder="From" data-target="pFrom">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px" selected>14</option>
+<option value="16px">16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="to" placeholder="To" data-target="pTo">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px" selected>14</option>
+<option value="16px">16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" onchange="applyColor(this)">
+</div>
+</div>
+
+<div class="input-box">
+<input id="amount" placeholder="Amount" data-target="pAmount">
+<div class="tools">
+<select onchange="applySize(this)">
+<option value="12px">12</option>
+<option value="14px">14</option>
+<option value="16px"selected>16</option>
+<option value="18px">18</option>
+<option value="20px">20</option>
+</select>
+<input type="color" value="#c40000" onchange="applyColor(this)">
+</div>
+</div>
+</div>
+<div class="form-buttons">
+  <!-- <button onclick="downloadDOC()">DOC</button> -->
+<button onclick="exportAction(() => downloadPDF())">PDF</button>
+
+<button onclick="exportAction(() => window.print())">Print</button>
+
+<button onclick="exportAction(() => sharePDFWhatsApp())">Share PDF</button>
+
+<!-- <button onclick="exportAction(() => shareToWhatsApp())">Share to WhatsApp</button> -->
+
+<button onclick="submitBill()">Save To Excel Sheet</button>
+<button onclick="resetData();alert('want to reset?')">Reset</button>
+</div>
+</div>
+<br>
+
+<!-- ================= BILL ================= -->
+
+<div id="bill">
+
+  
+  
+  <div class="logo-box left-logo">
+    <img src="./assets/logo-left.png">
+  </div>
+  
+  <div class="logo-box right-logo">
+    <img src="./assets/right-logo.png">
+  </div>
+  
+  <div class="top">
+    <div class="title page-center">
+    <div class="jurisdiction">SUBJECT TO NAGPUR JURISDICTION ONLY</div>
+    <div class="main">HARIHAR CARGO CARRIERS</div>
+    <div class="sub">FLEET OWNER & TRANSPORT CONTRACTOR</div>
+    <div class="small">
+      H.O: Plot No.19, Shivshakti Nagar, Opp Wadi Police Station, Amravati Road Nagpur 440023<br>
+      Mob: <span class="contact">9372693389, 7972409656</span>
+Email: <span class="email">hariharcarcarrier@gmail.com</span><br>
+GST No: <span class="gst">27AWOPR8730N2ZI</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="party-center">
+  <div class="party-line">
+  <span class="party-label">M/S :</span>
+  <span id="pParty" class="party-value"></span>
+</div>
+
+<div class="party-line">
+  <span class="party-label">Address :</span>
+  <span id="pAddress" class="party-value"></span>
+</div>
+</div>
+
+<div class="bill-date-row">
+
+  <div class="bill-left">
+    <b>Bill No :</b> <span id="pBill"></span>
+  </div>
+
+  <div class="date-right">
+    <b>Date :</b> <span id="pDate"></span>
+  </div>
+
+</div>
+
+<table>
+
+<tr>
+<th>LR NO.</th>
+<th>Date</th>
+<th>INVOICE NO.</th>
+<th>LORRY NO.</th>
+<th>FROM</th>
+<th>TO</th>
+<th>AMOUNT</th>
+</tr>
+
+<tr>
+<td id="pLR"></td>
+<td id="pDatee"></td>
+<td id="pInvoice"></td>
+<td id="pVehicle"></td>
+<td id="pFrom"></td>
+<td id="pTo"></td>
+<td id="pAmount"></td>
+</tr>
+
+</table>
+
+<div class="total-box">
+
+<div class="total-left">GST @ 0%<br>By Party</div>
+
+<div class="total-right">
+TOTAL<br>₹<span id="pTotal"></span>
+</div>
+
+</div>
+
+<div class="words">
+Total Rs (₹) In Words : <span id="pWords"></span>
+</div>
+
+<div class="sign">
+FOR HARIHAR CARGO CARRIERS
+<img src="./assets/sign.jpeg" class="logo">
+</div>
+
+<div class="footer">
+We are registered for GST under the category of Goods Transport Agency vide Reverse Charge Mechanism and thus the
+recipient of our service is liable to pay GST on goods transport service vide Not. No. 13/2017 Dd. 28.06.2017
+</div>
+
+</div>
+
+<script src="./bill.js"></script>
+</body>
+</html>

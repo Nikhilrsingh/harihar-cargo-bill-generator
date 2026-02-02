@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harihar Cargo Carriers Bilty - 5143</title>
+    <link rel="stylesheet" href="./bilty.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </head>
+  <body>
+    <div class="input-panel">
+
+<input id="inPdfName" placeholder="PDF File Name (Eg: Bilty_5143)" />
+
+      <h3>Bilty Input</h3>
+
+      <input
+        id="inConsignor"
+        placeholder="Consignor Name"
+        oninput="fillBilty()"
+      />
+      <input
+        id="inConsignorAddr"
+        placeholder="Consignor Address"
+        oninput="fillBilty()"
+      />
+      <input
+        id="inConsignee"
+        placeholder="Consignee Name"
+        oninput="fillBilty()"
+      />
+      <input
+        id="inConsigneeAddr"
+        placeholder="Consignee Address"
+        oninput="fillBilty()"
+      />
+
+      <input id="inLR" placeholder="LR No" oninput="fillBilty()" />
+      <input type="date" id="inDate" oninput="fillBilty()" />
+
+      <input id="inFrom" placeholder="From" oninput="fillBilty()" />
+      <input id="inTo" placeholder="To" oninput="fillBilty()" />
+
+      <input id="inPkg" placeholder="Total Car" oninput="fillBilty()" />
+
+      <input
+        id="inDesc"
+        placeholder="Car Description (Name)"
+        oninput="fillBilty()"
+      />
+      <input id="inVin" placeholder="VIN / Chassis" oninput="fillBilty()" />
+
+      <input id="inLorry" placeholder="Lorry No" oninput="fillBilty()" />
+
+      <input
+        id="inConsignorSign"
+        placeholder="Consignor Name (Bottom Signature)"
+        oninput="fillBilty()"
+      />
+     <div class="bilty-actions">
+  <button onclick="printBilty()">Print</button>
+  <button onclick="downloadBiltyPDF()">PDF</button>
+  <button onclick="shareBilty()">Share</button>
+    <button onclick="resetBilty()">Reset</button>
+  </div>
+    </div>
+
+
+    <div class="page">
+      <div class="jurisdiction">SUBJECT TO NAGPUR JURISDICTION ONLY</div>
+
+      <header class="header-section">
+        <div class="logo-area left">
+          <div class="god-img-placeholder">
+            <img src="./assets/logo-left.png" alt="Deity" />
+          </div>
+        </div>
+
+        <div class="company-details">
+          <h1>HARIHAR CARGO CARRIERS</h1>
+          <div class="sub-title">FLEET OWNER & TRANSPORT CONTRACTOR</div>
+          <div class="address">
+            H.O: PLOT NO.19, SHIVSHAKTI NAGAR, OPP WADI POLICE STATION AMRAVATI
+            ROAD NAGPUR 440023<br />
+            MOB NO. <span class="phone">9372693389, 7972409656</span> EMAIL:
+            <span class="email">HARIHARCARCARRIER@GMAIL.COM</span>
+          </div>
+          <div class="gst-row">GST No: <strong>27AWOPR8730N2ZI</strong></div>
+        </div>
+        <div class="logo-area right">
+          <div class="truck-img-placeholder">
+            <img src="./assets/right-logo.png" alt="Truck" />
+          </div>
+        </div>
+      </header>
+
+      <div class="row branches-row">
+        <strong>BRANCHES:</strong> PUNE, GURGAON, BANGLORE, CHENNAI, GOA,
+        MUMBAI, JABALPUR, RAIPUR, BHOPAL, INDORE, CHANDIGARH, LUDHIANA, COCHIN,
+        AHMEDABAD, JAIPUR, KOLKATA, LUCKNOW, BHUBANESWAR, HYDERABAD.
+      </div>
+
+      <div class="address-grid">
+        <div class="consignor box">
+          <div class="box-header">CONSIGNOR</div>
+          <div class="box-content">
+            <b>Name:</b> <span id="outConsignor"></span><br />
+            <b>Address:</b> <span id="outConsignorAddr"></span>
+          </div>
+        </div>
+        <div class="consignee box">
+          <div class="box-header">CONSIGNEE</div>
+          <div class="box-content">
+            <b>Name:</b> <span id="outConsignee"></span><br />
+            <b>Address:</b> <span id="outConsigneeAddr"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-info">
+        <div class="route-col">
+          LR NO: <span class="red-text" id="outLR"></span>
+        </div>
+        <div class="route-col">
+          DATE: <span class="red-text" id="outDate"></span>
+        </div>
+        <div class="route-col">FROM: <strong id="outFrom"></strong></div>
+        <div class="route-col">TO: <strong id="outTo"></strong></div>
+      </div>
+
+      <div class="main-body">
+        <div class="cargo-details">
+          <div class="table-header">
+            <div class="col-pkg">No of Pkg</div>
+            <div class="col-desc">DESCRIPTION (SAID TO CONTAIN)</div>
+            <div class="col-wt">ACTUAL WT.</div>
+          </div>
+
+          <div class="table-content">
+            <div class="col-pkg" id="outPkg">Total Car</div>
+            <div class="col-desc text-left">
+              <strong id="outDesc">Car Name</strong>
+              <br />
+              <div class="vin-line">
+                CHASSIS/VIN: <strong id="outVin"></strong>
+              </div>
+              <br />
+              <div class="lorry-info">
+                LORRY NO: <strong id="outLorry"></strong>
+              </div>
+              <br />
+            </div>
+            <div class="col-wt">-</div>
+          </div>
+
+          <div class="value-section">
+            <div class="val-row">
+              <span>DECLARED VALUE OF THE GOODS RS:</span>
+              <span>Papers Attached</span>
+            </div>
+            <div class="val-row">
+              <span>INSURANCE:</span>
+              <span>By Party</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="charges-details">
+          <div class="charges-header">
+            <div class="c-head">CHARGES</div>
+            <div class="c-amt">AMOUNT RS</div>
+          </div>
+
+          <div class="charge-row">
+            <div class="c-label">FREIGHT</div>
+            <div class="c-val">Fixed</div>
+          </div>
+          <div class="charge-row">
+            <div class="c-label">HANDLING CHARGES</div>
+            <div class="c-val"></div>
+          </div>
+          <div class="charge-row">
+            <div class="c-label">DOOR COLLECTION</div>
+            <div class="c-val"></div>
+          </div>
+          <div class="charge-row">
+            <div class="c-label">DOOR DELIVERY</div>
+            <div class="c-val"></div>
+          </div>
+          <div class="charge-row">
+            <div class="c-label">STATICAL CHARGES</div>
+            <div class="c-val"></div>
+          </div>
+          <div class="charge-row">
+            <div class="c-label">GST</div>
+            <div class="c-val"></div>
+          </div>
+
+          <div class="total-row">
+            <div class="c-label">TOTAL</div>
+            <div class="c-val">To Be Billed</div>
+          </div>
+
+          <div class="payment-mode">
+            BASIC OF BOOKING:<br />
+            <span class="checkbox">[ ]</span> TO PAY
+            <span class="checkbox">[ ]</span> PAID
+            <span class="checkbox">[X]</span> TO BE BILLED
+          </div>
+        </div>
+      </div>
+
+      <div class="rcm-note">
+        We are registered for GST under the category of Goods Transport Agency
+        vide Reverse Charge Mechanism and thus the recipient of our service is
+        liable to pay GST on goods transport service vide Not. No. 13/2017 Dd.
+        28.06.2017
+      </div>
+
+      <div class="footer-signatures">
+        <div class="sig-block">
+          <div class="sig-space" id="outConsignorSign"></div>
+          <div class="sig-label">NAME OF CONSIGNOR</div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-space">
+            Rajesh Singh
+            <img src="./assets/sign.jpeg" alt="signature" class="sig-image" />
+          </div>
+
+          <div class="sig-label official">
+            NAME & SIGNATURE OF BOOKING OFFICIAL
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./bilty.js"></script>
+  </body>
+</html>
