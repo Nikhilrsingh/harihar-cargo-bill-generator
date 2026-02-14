@@ -30,109 +30,95 @@ let total=t1+t2+t3+t4+t5+t6;
 document.getElementById("total").innerText=total;
 }
 
-async function downloadQuotationPDF(){
+const { jsPDF } = window.jspdf;
 
-  const element = document.querySelector(".page");
-
-  let fileName = "Quotation";
-  const nameInput = document.getElementById("pdfName");
-  if(nameInput && nameInput.value.trim() !== ""){
-    fileName = nameInput.value.trim();
-  }
-
-  const canvas = await html2canvas(element,{
-    scale:3,
-    useCORS:true,
-    scrollY:-window.scrollY
-  });
-
-  const imgData = canvas.toDataURL("image/jpeg",1.0);
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF("p","mm","a4");
-
-  const pageWidth = 210;
-  const imgWidth = pageWidth;
-  const imgHeight = canvas.height * imgWidth / canvas.width;
-
-  pdf.addImage(imgData,"JPEG",0,0,imgWidth,imgHeight);
-
-  // 🔥 DIRECT DOWNLOAD (mobile + desktop same)
-  pdf.save(fileName + ".pdf");
+/* ===== ENABLE DESKTOP MODE ===== */
+function enablePDFMode(){
+document.body.classList.add("pdf-mode");
 }
 
-
-
-async function shareQuotation(){
-
-  const element = document.querySelector(".page");
-
-  let fileName = "Quotation";
-  const nameInput = document.getElementById("pdfName");
-  if(nameInput && nameInput.value.trim() !== ""){
-    fileName = nameInput.value.trim();
-  }
-
-  const canvas = await html2canvas(element,{
-    scale:3,
-    useCORS:true,
-    scrollY:-window.scrollY
-  });
-
-  const imgData = canvas.toDataURL("image/jpeg",1.0);
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF("p","mm","a4");
-
-  const pageWidth = 210;
-  const imgWidth = pageWidth;
-  const imgHeight = canvas.height * imgWidth / canvas.width;
-
-  pdf.addImage(imgData,"JPEG",0,0,imgWidth,imgHeight);
-
-  const blob = pdf.output("blob");
-  const file = new File([blob], fileName+".pdf", {type:"application/pdf"});
-
-  // 🔥 MOBILE SHARE LIKE DESKTOP
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    await navigator.share({
-      title: fileName,
-      files: [file]
-    });
-  } else {
-    alert("Open in mobile Chrome for share");
-  }
+function disablePDFMode(){
+document.body.classList.remove("pdf-mode");
 }
 
-
-
+/* ===== PRINT ===== */
 function printQuotation(){
 
-  const printContent = document.querySelector(".page").outerHTML;
+enablePDFMode();
 
-  const win = window.open('', '', 'width=900,height=900');
+setTimeout(()=>{
+window.print();
+disablePDFMode();
+},500);
 
-  win.document.write(`
-    <html>
-    <head>
-    <title>Print</title>
-    <style>
-      body{margin:0;padding:0;background:white;}
-      .page{
-        width:210mm;
-        min-height:297mm;
-        margin:auto;
-      }
-    </style>
-    </head>
-    <body>
-      ${printContent}
-    </body>
-    </html>
-  `);
+}
 
-  win.document.close();
-  win.focus();
-  win.print();
-  win.close();
+/* ===== DOWNLOAD PDF ===== */
+function downloadPDF(){
+
+enablePDFMode();
+
+setTimeout(()=>{
+
+let element=document.querySelector(".page");
+
+html2canvas(element,{scale:3,useCORS:true}).then(canvas=>{
+
+let imgData=canvas.toDataURL("image/png");
+
+let pdf=new jsPDF('p','mm','a4');
+let imgWidth=210;
+let imgHeight=(canvas.height * imgWidth)/canvas.width;
+
+pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight);
+pdf.save("Quotation.pdf");
+
+disablePDFMode();
+
+});
+
+},400);
+
+}
+
+/* ===== SHARE ===== */
+function shareWhatsApp(){
+
+enablePDFMode();
+
+setTimeout(()=>{
+
+let element=document.querySelector(".page");
+
+html2canvas(element,{scale:3,useCORS:true}).then(canvas=>{
+
+let imgData=canvas.toDataURL("image/png");
+
+let pdf=new jsPDF('p','mm','a4');
+let imgWidth=210;
+let imgHeight=(canvas.height * imgWidth)/canvas.width;
+
+pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight);
+
+let blob=pdf.output("blob");
+let file=new File([blob],"Quotation.pdf",{type:"application/pdf"});
+
+if(navigator.share){
+navigator.share({
+title:"Quotation",
+text:"Transport quotation",
+files:[file]
+});
+}else{
+alert("Sharing not supported");
+}
+
+disablePDFMode();
+
+});
+
+},400);
+
 }
 
 function resetForm(){

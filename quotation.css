@@ -257,72 +257,73 @@ width:130px;
 margin:5px 0;
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
-@media (max-width:768px){
-
-.control-panel{
-position:static;
-width:100%;
-border-radius:0;
-box-shadow:none;
-}
-
-.page{
-padding:0;
-}
-
-.quotation{
-width:100%;
-height:auto;
-padding:15px;
-}
-
-.left-logo{width:55px}
-.right-logo{width:70px}
-
-.company-title{font-size:20px}
-.subtitle{font-size:11px}
-.address,.contact{font-size:10px}
-
-.charges{
-font-size:12px;
-}
-
-.sign{
-position:relative;
-right:auto;
-bottom:auto;
-margin-top:30px;
-}
-
-}
-
-/* ===== PRINT SETTINGS ===== */
-@media print{
+/* ===== MOBILE SAME AS DESKTOP (SCALE MODE) ===== */
+@media (max-width:900px){
 
 body{
-background:white;
+background:#111;
+overflow-x:auto;
 }
 
+/* center page */
+.page{
+width:210mm;
+min-height:297mm;
+background:white;
+transform:scale(0.45);
+transform-origin:left top;
+box-shadow:0 0 20px rgba(0,0,0,0.6);
+}
+
+/* keep buttons fixed */
 .control-panel{
+  position: fixed;
+bottom:0;
+top:50%;
+width:70%;
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+border-radius:0;
+z-index:9999;
+}
+
+.control-panel input{
+font-size:16px;
+}
+
+.btns{
+display:flex;
+width:100%;
+gap:6px;
+}
+
+.btns button{
+flex:1;
+padding:12px;
+font-size:15px;
+}
+
+}
+
+/* hide panel when generating pdf */
+body.pdf-mode .control-panel{
 display:none !important;
 }
 
-.page{
-padding:0;
-margin:0;
+/* ===== FORCE DESKTOP MODE FOR PDF/PRINT ===== */
+.pdf-mode .page{
+transform:none !important;
+width:210mm !important;
+min-height:297mm !important;
+margin:auto !important;
+box-shadow:none !important;
 }
 
-.quotation{
-width:210mm;
-height:297mm;
-margin:0;
-box-shadow:none;
-page-break-after:avoid;
+.pdf-mode body{
+background:white !important;
 }
 
-@page{
-size:A4 portrait;
-margin:0;
-}
+.pdf-mode .control-panel{
+display:none !important;
 }
