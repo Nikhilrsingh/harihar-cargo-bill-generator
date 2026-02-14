@@ -11,6 +11,10 @@ let d=new Date(date.value);
 dateView.innerText=d.toLocaleDateString("en-GB");
 });
 
+document.getElementById("quantity").addEventListener("input",()=>{
+quantityView.innerText=quantity.value;
+});
+
 function update(){
 let t1=+transport.value||0;
 let t2=+packing.value||0;

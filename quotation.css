@@ -197,6 +197,13 @@ color:#c40000;
 font-size:13px;
 }
 
+.quantity{
+margin-top:10px;
+font-weight:bold;
+color:#c40000;
+font-size:13px;
+}
+
 .msg{
 margin:12px 0;
 font-style:italic;
