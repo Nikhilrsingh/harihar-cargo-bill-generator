@@ -54,31 +54,36 @@ disablePDFMode();
 }
 
 /* ===== DOWNLOAD PDF ===== */
-function downloadPDF(){
+async function downloadPDF(){
 
-enablePDFMode();
+const { jsPDF } = window.jspdf;
 
-setTimeout(()=>{
+let element = document.querySelector(".page");
 
-let element=document.querySelector(".page");
+/* force desktop layout */
+document.body.classList.add("pdf-mode");
 
-html2canvas(element,{scale:3,useCORS:true}).then(canvas=>{
-
-let imgData=canvas.toDataURL("image/png");
-
-let pdf=new jsPDF('p','mm','a4');
-let imgWidth=210;
-let imgHeight=(canvas.height * imgWidth)/canvas.width;
-
-pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight);
-pdf.save("Quotation.pdf");
-
-disablePDFMode();
-
+const canvas = await html2canvas(element,{
+scale:3,
+useCORS:true,
+allowTaint:true
 });
 
-},400);
+const imgData = canvas.toDataURL("image/png");
 
+const pdf = new jsPDF('p','mm','a4');
+
+const imgWidth = 210;
+const imgHeight = canvas.height * imgWidth / canvas.width;
+
+pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight);
+
+/* FORCE DIRECT DOWNLOAD */
+let fileName = document.getElementById("pdfName")?.value || "Quotation";
+
+pdf.save(fileName + ".pdf");
+
+document.body.classList.remove("pdf-mode");
 }
 
 /* ===== SHARE ===== */

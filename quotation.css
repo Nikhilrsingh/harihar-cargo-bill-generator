@@ -75,60 +75,56 @@ position:relative;
 overflow:hidden;
 }
 
-/* FULL HEADER */
-
-
-/* HEADER */
-
-.top{
-  position:relative;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding: 65px;
-  line-height: 17px;
+/* ===== HEADER FIX FOR PDF ===== */
+.header{
+display:grid;
+grid-template-columns:120px 1fr 140px;
+align-items:center;
 }
 
-/* LEFT LOGO CONTROL */
-
 .left-logo{
-  position:absolute;
-  top:-25px;      /* move up/down */
-  left:20px;     /* move left/right */
+text-align: center;
 }
 
 .left-logo img{
-  height:150px;   /* control size */
-  width:auto;
+width:120px;
 }
 
-/* RIGHT LOGO CONTROL */
-
 .right-logo{
-  position:absolute;
-  top:2px;      /* move up/down */
-  right:10px;    /* move left/right */
+text-align:right;
 }
 
 .right-logo img{
-  height:80px;   /* control size */
-  width:auto;
+width:145px;
 }
 
-.logo{
-  height:35px;   /* control size */
-  width:auto;
+.center-head{
+text-align:center;
+}
+
+.main{
+font-size:32px;
+font-weight:900;
+color:#c40000;
+}
+
+.sub{
+font-size:16px;
+font-weight:800;
+color:#c40000;
+}
+
+.small{
+  font-size:12px;
+font-weight:800;
 }
 
 /* PAGE CENTER TITLE (TRUE CENTER) */
 
 .page-center{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  text-align:center;
-  width:100%;
-  pointer-events:none; /* avoid overlap click issues */
+text-align:center;
+width:100%;
+margin-top:5px;
 }
 
 /* TITLE STYLING */
@@ -265,16 +261,6 @@ background:#111;
 overflow-x:auto;
 }
 
-/* center page */
-.page{
-width:210mm;
-min-height:297mm;
-background:white;
-transform:scale(0.45);
-transform-origin:left top;
-box-shadow:0 0 20px rgba(0,0,0,0.6);
-}
-
 /* keep buttons fixed */
 .control-panel{
   position: fixed;
@@ -311,19 +297,48 @@ body.pdf-mode .control-panel{
 display:none !important;
 }
 
-/* ===== FORCE DESKTOP MODE FOR PDF/PRINT ===== */
-.pdf-mode .page{
-transform:none !important;
-width:210mm !important;
-min-height:297mm !important;
-margin:auto !important;
-box-shadow:none !important;
-}
-
 .pdf-mode body{
 background:white !important;
 }
 
 .pdf-mode .control-panel{
 display:none !important;
+}
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+.page, .page *{
+visibility:visible;
+}
+
+.control-panel{
+display:none !important;
+}
+
+.page{
+position:absolute;
+left:0;
+top:0;
+width:210mm;
+min-height:297mm;
+}
+
+@page{
+size:A4 portrait;
+margin:0;
+}
+}
+
+/* ===== FORCE SAME DESKTOP VIEW ON MOBILE ===== */
+.page{
+width:210mm !important;
+min-height:297mm !important;
+background:white;
+margin:auto;
+box-shadow:none;
+transform:none !important;
 }
