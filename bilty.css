@@ -99,14 +99,14 @@ strong { font-weight: 700; }
     height: 35mm;
     position: relative;
     left: -10px;
-    top: -50px;
+    top: -15px;
  }
 
 .logo-area.right img { 
     height: 23mm;
     position: relative;
     right: 40px;
-    top: -50px;
+    top: -15px;
  }
 
 .company-details {

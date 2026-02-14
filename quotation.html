@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transport Quotation</title>
+<link rel="stylesheet" href="quotation.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+<!-- ================= FLOATING INPUT PANEL ================= -->
+<div class="control-panel" id="panel">
+<h2>Quotation Generator</h2>
+
+<label>PDF File Name</label>
+<input id="pdfName" placeholder="Enter PDF File Name">
+
+<label>Company Name</label>
+<input type="text" id="company" value="MS ">
+
+<div class="row">
+<div>
+<label>From</label>
+<input type="text" id="from" value="">
+</div>
+<div>
+<label>To</label>
+<input type="text" id="to" value="">
+</div>
+</div>
+
+<label>Date</label>
+<input type="date" id="date">
+
+<label>Transport Charges</label>
+<input type="number" id="transport" value="0">
+
+<label>Packing Charges</label>
+<input type="number" id="packing" value="0">
+
+<label>Loading Charges</label>
+<input type="number" id="loading" value="0">
+
+<label>Unloading Charges</label>
+<input type="number" id="unloading" value="0">
+
+<label>Storage Charges</label>
+<input type="number" id="storage" value="0">
+
+<label>Other Charges</label>
+<input type="number" id="other" value="0">
+
+<div class="btns quote-actions">
+  <button onclick="printQuotation()">🖨 Print</button>
+  <button onclick="downloadQuotationPDF()">⬇ Download PDF</button>
+  <button onclick="shareQuotation()">📤 Share</button>
+  <button onclick="location.reload()">🔄 Reset</button>
+</div>
+</div>
+
+
+<!-- ================== QUOTATION PAGE ================== -->
+<div class="page" id="printArea">
+
+<div class="quotation">
+
+<!-- HEADER -->
+<!-- ===== EXACT HEADER ===== -->
+<div id="bill">
+
+  
+  
+  <div class="logo-box left-logo">
+    <img src="./assets/logo-left.png">
+  </div>
+  
+  <div class="logo-box right-logo">
+    <img src="./assets/right-logo.png">
+  </div>
+  
+  <div class="top">
+    <div class="title page-center">
+    <div class="jurisdiction">SUBJECT TO NAGPUR JURISDICTION ONLY</div>
+    <div class="main">HARIHAR CARGO CARRIERS</div>
+    <div class="sub">FLEET OWNER & TRANSPORT CONTRACTOR</div>
+    <div class="small">
+      H.O: Plot No.19, Shivshakti Nagar, Opp Wadi Police Station, Amravati Road Nagpur 440023<br>
+      Mob: <span class="contact">9372693389, 7972409656</span>
+Email: <span class="email">hariharcarcarrier@gmail.com</span><br>
+GST No: <span class="gst">27AWOPR8730N2ZI</span>
+    </div>
+  </div>
+
+</div>
+
+<h2 style="text-align:center;margin:6px 0;color:#c40000;font-size:22px;">
+Quotation
+</h2>
+
+<!-- CLIENT ROW -->
+<div class="client-row">
+<div class="client-name" id="companyView">MS</div>
+<div class="route">
+<span>FROM – <b id="fromView"></b></span>
+<span>To – <b id="toView"></b></span>
+</div>
+</div>
+
+<!-- DATE -->
+<div class="date">DATE: <span id="dateView"></span></div>
+
+<!-- MESSAGE -->
+<div class="msg">
+We thank you for your inquiry for the Transportation of your Belongings. 
+We have pleasure in quoting our charges as follows.
+</div>
+
+<!-- TABLE -->
+<table class="charges">
+<thead>
+<tr>
+<th>PARTICULARS</th>
+<th>DETAILS</th>
+<th>AMOUNT</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>TRANSPORTATION CHARGES</td>
+<td>Road Transport/Door to Door</td>
+<td class="amt" id="t1"></td>
+</tr>
+
+<tr>
+<td>PACKING CHARGES</td>
+<td>With Packing Material</td>
+<td class="amt" id="t2">-</td>
+</tr>
+
+<tr>
+<td>LOADING CHARGES</td>
+<td>With Manpower</td>
+<td class="amt" id="t3">-</td>
+</tr>
+
+<tr>
+<td>UNLOADING CHARGES</td>
+<td>With Manpower</td>
+<td class="amt" id="t4">-</td>
+</tr>
+
+<tr>
+<td>STORAGE CHARGES</td>
+<td>150/- Rs Per Day</td>
+<td class="amt" id="t5">-</td>
+</tr>
+
+<tr>
+<td>OTHER CHARGES</td>
+<td>Miscellaneous</td>
+<td class="amt" id="t6">-</td>
+</tr>
+
+<tr>
+<td>INSURANCE</td>
+<td>3% on the value of goods</td>
+<td class="amt">nill</td>
+</tr>
+
+<tr>
+<td>SURCHARGE @10%</td>
+<td>On Total Bill Amount</td>
+<td class="amt">nill</td>
+</tr>
+
+<tr>
+<td>GST</td>
+<td>0%</td>
+<td class="amt">0</td>
+</tr>
+
+<tr class="total">
+<td colspan="2">TOTAL CHARGES (100% Payment at Loading Point)</td>
+<td id="total"></td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="note">
+We are registered for GST under the category of Goods Transport Agency vide Reverse Charge Mechanism and thus the recipient of our service is liable to pay GST on goods transport service vide Not. No. 13/2017 Dd. 28.06.2017
+</div>
+
+<div class="sign">
+<div>YOURS FAITHFULLY</div>
+<img src="assets/sign.jpeg">
+<div>FOR HARIHAR CARGO CARRIERS</div>
+</div>
+
+</div>
+</div>
+
+<script src="quotation.js"></script>
+</body>
+</html>
