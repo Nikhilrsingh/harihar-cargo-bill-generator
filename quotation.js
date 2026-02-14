@@ -30,11 +30,7 @@ let total=t1+t2+t3+t4+t5+t6;
 document.getElementById("total").innerText=total;
 }
 
-function printQuotation(){
-window.print();
-}
-
-function downloadQuotationPDF(){
+async function downloadQuotationPDF(){
 
   const element = document.querySelector(".page");
 
@@ -44,35 +40,27 @@ function downloadQuotationPDF(){
     fileName = nameInput.value.trim();
   }
 
-  html2canvas(element,{
+  const canvas = await html2canvas(element,{
     scale:3,
     useCORS:true,
-    scrollY: -window.scrollY
-  }).then(canvas=>{
-
-    const imgData = canvas.toDataURL("image/jpeg",1.0);
-    const { jsPDF } = window.jspdf;
-
-    const pdf = new jsPDF("p","mm","a4");
-
-    const pageWidth = 210;
-    const pageHeight = 297;
-
-    const imgWidth = pageWidth;
-    const imgHeight = canvas.height * imgWidth / canvas.width;
-
-    let position = 0;
-
-    // 🔥 If height exceeds page → fit correctly
-    if(imgHeight > pageHeight){
-      pdf.addImage(imgData,"JPEG",0,0,pageWidth,pageHeight);
-    }else{
-      pdf.addImage(imgData,"JPEG",0,0,imgWidth,imgHeight);
-    }
-
-    pdf.save(fileName + ".pdf");
+    scrollY:-window.scrollY
   });
+
+  const imgData = canvas.toDataURL("image/jpeg",1.0);
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF("p","mm","a4");
+
+  const pageWidth = 210;
+  const imgWidth = pageWidth;
+  const imgHeight = canvas.height * imgWidth / canvas.width;
+
+  pdf.addImage(imgData,"JPEG",0,0,imgWidth,imgHeight);
+
+  // 🔥 DIRECT DOWNLOAD (mobile + desktop same)
+  pdf.save(fileName + ".pdf");
 }
+
+
 
 async function shareQuotation(){
 
@@ -100,21 +88,51 @@ async function shareQuotation(){
 
   pdf.addImage(imgData,"JPEG",0,0,imgWidth,imgHeight);
 
-  // convert to blob
   const blob = pdf.output("blob");
   const file = new File([blob], fileName+".pdf", {type:"application/pdf"});
 
-  // 🔥 MOBILE SHARE SUPPORT CHECK
+  // 🔥 MOBILE SHARE LIKE DESKTOP
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
     await navigator.share({
       title: fileName,
-      text: "Quotation PDF",
       files: [file]
     });
-  } 
-  else {
-    alert("Sharing not supported on this device.\nUse mobile Chrome.");
+  } else {
+    alert("Open in mobile Chrome for share");
   }
+}
+
+
+
+function printQuotation(){
+
+  const printContent = document.querySelector(".page").outerHTML;
+
+  const win = window.open('', '', 'width=900,height=900');
+
+  win.document.write(`
+    <html>
+    <head>
+    <title>Print</title>
+    <style>
+      body{margin:0;padding:0;background:white;}
+      .page{
+        width:210mm;
+        min-height:297mm;
+        margin:auto;
+      }
+    </style>
+    </head>
+    <body>
+      ${printContent}
+    </body>
+    </html>
+  `);
+
+  win.document.close();
+  win.focus();
+  win.print();
+  win.close();
 }
 
 function resetForm(){
