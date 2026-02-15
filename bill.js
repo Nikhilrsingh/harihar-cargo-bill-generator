@@ -289,90 +289,6 @@ return parts[2] + "/" + parts[1] + "/" + parts[0];
 
 }
 
-
-// submit 
-
-function submitBill(){
-
-let billNo = billno.value.trim();
-
-if(!billNo,!date.value,!party.value,!from.value,!to.value,!amount.value){
-  alert("Please enter all fields");
-  return;
-}
-
-// Check duplicate submit
-let submittedBills = JSON.parse(localStorage.getItem("submittedBills")) || [];
-
-if(submittedBills.includes(billNo)){
-  alert("This Bill Number is already submitted!");
-  return;
-}
-
-// Prepare data row
-let row = {
-  Date: formatDateDMY(date.value),
-  BillNo: billNo,
-  PartyName: party.value,
-  From: from.value,
-  To: to.value,
-  Amount: amount.value
-};
-
-// Save to Excel
-saveToExcel(row);
-
-// Lock bill number
-submittedBills.push(billNo);
-localStorage.setItem("submittedBills", JSON.stringify(submittedBills));
-
-alert("Bill submitted successfully ✅");
-
-}
-
-// Excel
-
-async function saveToExcel(newRow){
-
-// Ask file location first time only
-if(!excelFileHandle){
-
-excelFileHandle = await window.showSaveFilePicker({
-  suggestedName: "BillRecords.xlsx",
-  types: [{
-    description: "Excel File",
-    accept: {
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
-    }
-  }]
-});
-
-}
-
-// Load previous data (from memory)
-let existingData = JSON.parse(localStorage.getItem("excelData")) || [];
-
-// Add new row
-existingData.push(newRow);
-
-// Save memory copy
-localStorage.setItem("excelData", JSON.stringify(existingData));
-
-// Create Excel
-let worksheet = XLSX.utils.json_to_sheet(existingData);
-let workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "Bills");
-
-// Convert to buffer
-let excelBuffer = XLSX.write(workbook, {bookType:"xlsx", type:"array"});
-
-// Write to SAME file
-let writable = await excelFileHandle.createWritable();
-await writable.write(excelBuffer);
-await writable.close();
-
-}
-
 function exportAction(callback) {
 
   // lock scrolling
@@ -406,3 +322,50 @@ document.querySelectorAll(".tools input[type=color]").forEach(color=>{
 });
 
 };
+
+
+// excel sheet function
+
+function saveBillToSheet(){
+
+alert("sending data...");
+
+let rawDate = document.getElementById("date").value;
+let formattedDate = "";
+
+if(rawDate){
+  let d = new Date(rawDate);
+  let day = String(d.getDate()).padStart(2,"0");
+  let month = String(d.getMonth()+1).padStart(2,"0");
+  let year = d.getFullYear();
+  formattedDate = day + "/" + month + "/" + year;
+}
+
+let data = {
+billdate: formattedDate,
+billno: document.getElementById("billno").value,
+party: document.getElementById("party").value,
+from: document.getElementById("from").value,
+to: document.getElementById("to").value,
+vehicle: document.getElementById("vehicle").value,
+lr: document.getElementById("lrno").value,
+invoice: document.getElementById("invoice").value,
+amount: document.getElementById("amount").value
+};
+
+// 🔴 PUT YOUR GOOGLE WEB APP URL HERE
+let url = "https://script.google.com/macros/s/AKfycbyPMOTKkLtBln0M4YexDvczafMHNlnuUrp81ExMOqE1QIA1LKPzpS4RKyFZtSSjiMhuIw/exec";
+
+fetch(url,{
+method:"POST",
+mode:"no-cors",
+body: JSON.stringify(data)
+})
+.then(()=>{
+alert("✅ Bill saved to Excel");
+})
+.catch(()=>{
+alert("❌ Not saved");
+});
+
+}
