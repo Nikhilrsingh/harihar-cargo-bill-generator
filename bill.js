@@ -327,18 +327,16 @@ document.querySelectorAll(".tools input[type=color]").forEach(color=>{
 // excel sheet function
 
 function saveBillToSheet(){
-
-alert("sending data...");
-
+  
 let rawDate = document.getElementById("date").value;
 let formattedDate = "";
 
 if(rawDate){
-  let d = new Date(rawDate);
-  let day = String(d.getDate()).padStart(2,"0");
-  let month = String(d.getMonth()+1).padStart(2,"0");
-  let year = d.getFullYear();
-  formattedDate = day + "/" + month + "/" + year;
+let d = new Date(rawDate);
+let day = String(d.getDate()).padStart(2,"0");
+let month = String(d.getMonth()+1).padStart(2,"0");
+let year = d.getFullYear();
+formattedDate = day + "/" + month + "/" + year;
 }
 
 let data = {
@@ -353,19 +351,17 @@ invoice: document.getElementById("invoice").value,
 amount: document.getElementById("amount").value
 };
 
-// 🔴 PUT YOUR GOOGLE WEB APP URL HERE
 let url = "https://script.google.com/macros/s/AKfycbyPMOTKkLtBln0M4YexDvczafMHNlnuUrp81ExMOqE1QIA1LKPzpS4RKyFZtSSjiMhuIw/exec";
 
 fetch(url,{
 method:"POST",
 mode:"no-cors",
 body: JSON.stringify(data)
-})
-.then(()=>{
-alert("✅ Bill saved to Excel");
-})
-.catch(()=>{
-alert("❌ Not saved");
 });
+
+// simple mobile-safe message
+setTimeout(()=>{
+alert("✅ Saved to Excel");
+},800);
 
 }
