@@ -109,21 +109,16 @@ block.querySelector(".to").value;
 // SAVE EACH CAR BLOCK
 carDetails.push(
 
-`🚗 Car ${carDetails.length + 1}
+`🚗 CAR ${carDetails.length + 1}
 
-Car Name: ${carname}
+Car Name : ${carname}        ||        Packer : ${packer}
 
-Car No: ${carno}
+Car No : ${carno}            ||        From : ${from}
 
-Car Value: ${carvalue}
+Car Value : ${carvalue}      ||        To : ${to}
 
-Packer: ${packer}
 
-From: ${from}
-
-To: ${to}
-
-------------------------`
+`
 
 );
 
@@ -144,7 +139,7 @@ mobile:
 document.getElementById("mobile").value,
 
 cars:
-carDetails.join(" || ")
+carDetails.join("")
 
 };
 
