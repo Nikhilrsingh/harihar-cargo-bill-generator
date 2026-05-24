@@ -46,6 +46,9 @@ document.getElementById("inVin").value;
 document.getElementById("outLorry").innerText =
 document.getElementById("inLorry").value;
 
+document.getElementById("outGoodsValue").innerText =
+document.getElementById("inGoodsValue").value;
+
 document.getElementById("outPkg").innerText =
 document.getElementById("inPkg").value;
 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pickup & Delivery</title>
+
+<link rel="stylesheet" href="pickup.css">
+</head>
+
+<body>
+
+<div class="input-panel">
+
+<h2>🚚 Pickup & Delivery</h2>
+
+<input type="date" id="date">
+
+<input type="text" id="trailer" placeholder="Trailer No">
+
+<input type="number" id="mobile" placeholder="Driver Mobile No">
+
+<input type="text" id="transport" placeholder="Transporter Name">
+
+<div id="carsContainer">
+
+<div class="car-block">
+
+<h3>🚗 Car 1 Details</h3>
+
+<input type="text" class="carname" placeholder="Car Name">
+
+<input type="text" class="carno" placeholder="Car No">
+
+<input type="text" class="carvalue" placeholder="Car Value">
+
+<input type="text" class="packer" placeholder="Packer Name">
+
+<input type="text" class="from" placeholder="From">
+
+<input type="text" class="to" placeholder="To">
+
+<div class="delete-icon" onclick="deleteCar(this)">
+❌
+</div>
+
+</div>
+
+</div>
+
+<button class="add" type="button" onclick="addMoreCar()">
+➕ Add More Car
+</button>
+
+<button type="button" onclick="savePickupData()">
+Submit Entry
+</button>
+
+</div>
+
+<script src="pickup.js"></script>
+
+</body>
+</html>

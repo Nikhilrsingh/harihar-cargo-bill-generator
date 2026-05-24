@@ -54,6 +54,8 @@
 
       <input id="inLorry" placeholder="Lorry No" oninput="fillBilty()" />
 
+      <input id="inGoodsValue" placeholder="Declared Goods Value" oninput="fillBilty()"/>
+
       <input
         id="inConsignorSign"
         placeholder="Consignor Name (Bottom Signature)"
@@ -156,10 +158,11 @@
           </div>
 
           <div class="value-section">
-            <div class="val-row">
-              <span>DECLARED VALUE OF THE GOODS RS:</span>
-              <span>Papers Attached</span>
+            <div class="goods-value-box">
+              <span class="goods-label"> DECLARED VALUE OF GOODS: </span>
+              <span id="outGoodsValue"> Papers Attached </span>
             </div>
+            
             <div class="val-row">
               <span>INSURANCE:</span>
               <span>By Party</span>
