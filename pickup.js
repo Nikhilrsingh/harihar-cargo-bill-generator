@@ -1,29 +1,49 @@
 function addMoreCar(){
 
-let container = document.getElementById("carsContainer");
+const carsContainer =
+document.getElementById("carsContainer");
 
-let totalCars =
+const carCount =
 document.querySelectorAll(".car-block").length + 1;
 
-let block = document.createElement("div");
+const div =
+document.createElement("div");
 
-block.classList.add("car-block");
+div.classList.add("car-block");
 
-block.innerHTML = `
+div.innerHTML = `
 
-<h3>🚗 Car ${totalCars}</h3>
+<h3>🚗 Car ${carCount} Details</h3>
 
-<input type="text" class="carname" placeholder="Car Name">
+<div class="input-box">
+  <input type="text" class="carname" required>
+  <label>Car Name</label>
+</div>
 
-<input type="text" class="carno" placeholder="Car No">
+<div class="input-box">
+  <input type="text" class="carno" required>
+  <label>Car Number</label>
+</div>
 
-<input type="text" class="carvalue" placeholder="Car Value">
+<div class="input-box">
+  <input type="text" class="carvalue" required>
+  <label>Car Value</label>
+</div>
 
-<input type="text" class="packer" placeholder="Packer Name">
+<div class="input-box">
+  <input type="text" class="packer" required>
+  <label>Packer Name</label>
+</div>
 
-<input type="text" class="from" placeholder="From">
+<div class="input-box">
+  <input type="text" class="from" required>
+  <label>From</label>
+</div>
 
-<input type="text" class="to" placeholder="To">
+<div class="input-box">
+  <input type="text" class="to" required>
+  <label>To</label>
+</div>
 
 <div class="delete-icon" onclick="deleteCar(this)">
 ❌
@@ -31,7 +51,7 @@ block.innerHTML = `
 
 `;
 
-container.appendChild(block);
+carsContainer.appendChild(div);
 
 }
 

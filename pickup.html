@@ -14,13 +14,25 @@
 
 <h2>🚚 Pickup & Delivery</h2>
 
-<input type="date" id="date">
+<div class="input-box">
+  <input type="date" id="date" required>
+  <label>Date</label>
+</div>
 
-<input type="text" id="trailer" placeholder="Trailer No">
+<div class="input-box">
+  <input type="text" id="trailer" required>
+  <label>Trailer Number</label>
+</div>
 
-<input type="number" id="mobile" placeholder="Driver Mobile No">
+<div class="input-box">
+  <input type="number" id="mobile" required>
+  <label>Driver Mobile Number</label>
+</div>
 
-<input type="text" id="transport" placeholder="Transporter Name">
+<div class="input-box">
+  <input type="text" id="transport" required>
+  <label>Transporter Name</label>
+</div>
 
 <div id="carsContainer">
 
@@ -28,17 +40,35 @@
 
 <h3>🚗 Car 1 Details</h3>
 
-<input type="text" class="carname" placeholder="Car Name">
+<div class="input-box">
+  <input type="text" class="carname" required>
+  <label>Car Name</label>
+</div>
 
-<input type="text" class="carno" placeholder="Car No">
+<div class="input-box">
+  <input type="text" class="carno" required>
+  <label>Car Number</label>
+</div>
 
-<input type="text" class="carvalue" placeholder="Car Value">
+<div class="input-box">
+  <input type="text" class="carvalue" required>
+  <label>Car Value</label>
+</div>
 
-<input type="text" class="packer" placeholder="Packer Name">
+<div class="input-box">
+  <input type="text" class="packer" required>
+  <label>Packer Name</label>
+</div>
 
-<input type="text" class="from" placeholder="From">
+<div class="input-box">
+  <input type="text" class="from" required>
+  <label>From</label>
+</div>
 
-<input type="text" class="to" placeholder="To">
+<div class="input-box">
+  <input type="text" class="to" required>
+  <label>To</label>
+</div>
 
 <div class="delete-icon" onclick="deleteCar(this)">
 ❌
