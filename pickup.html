@@ -12,7 +12,7 @@
 
 <div class="input-panel">
 
-<h2>🚚 Pickup & Delivery</h2>
+<h2>🚚 Loading Details</h2>
 
 <div class="input-box">
   <input type="date" id="date" required>
@@ -84,6 +84,19 @@
 
 <button type="button" onclick="savePickupData()">
 Submit Entry
+</button>
+
+<div class="input-box">
+  <input type="text" id="searchId" required>
+  <label>Enter Entry ID</label>
+</div>
+<button type="button" onclick="searchEntry()">
+🔍 Search Entry
+</button>
+<div id="searchResult"></div>
+
+<button type="button" onclick="updateEntry()">
+✏️ Update Entry
 </button>
 
 </div>
