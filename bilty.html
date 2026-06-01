@@ -12,62 +12,153 @@
   <body>
     <div class="input-panel">
 
-<input id="inPdfName" placeholder="PDF File Name (Eg: Bilty_5143)" />
+<div class="input-box">
+<input id="inPdfName" placeholder=" " />
+<label>PDF File Name (Eg: Bilty_5143)</label>
+</div>
 
       <h3>Bilty Input</h3>
 
-      <input
-        id="inConsignor"
-        placeholder="Consignor Name"
-        oninput="fillBilty()"
-      />
-      <input
-        id="inConsignorAddr"
-        placeholder="Consignor Address"
-        oninput="fillBilty()"
-      />
-      <input
-        id="inConsignee"
-        placeholder="Consignee Name"
-        oninput="fillBilty()"
-      />
-      <input
-        id="inConsigneeAddr"
-        placeholder="Consignee Address"
-        oninput="fillBilty()"
-      />
+      <div class="input-box">
 
-      <input id="inLR" placeholder="LR No" oninput="fillBilty()" />
-      <input type="date" id="inDate" oninput="fillBilty()" />
+<input
+id="inConsignor"
+placeholder=" "
+oninput="fillBilty()"
+/>
 
-      <input id="inFrom" placeholder="From" oninput="fillBilty()" />
-      <input id="inTo" placeholder="To" oninput="fillBilty()" />
+<label>Consignor Name</label>
 
-      <input id="inPkg" placeholder="Total Car" oninput="fillBilty()" />
+</div>
+      
+<div class="input-box">
 
-      <input
-        id="inDesc"
-        placeholder="Car Description (Name)"
-        oninput="fillBilty()"
-      />
-      <input id="inVin" placeholder="VIN / Chassis" oninput="fillBilty()" />
+<input
+id="inConsignorAddr"
+placeholder=" "
+oninput="fillBilty()"
+/>
 
-      <input id="inLorry" placeholder="Lorry No" oninput="fillBilty()" />
+<label>Consignor Address</label>
 
-      <input id="inGoodsValue" placeholder="Declared Goods Value" oninput="fillBilty()"/>
+</div>
+      
+<div class="input-box">
 
-      <input
-        id="inConsignorSign"
-        placeholder="Consignor Name (Bottom Signature)"
-        oninput="fillBilty()"
-      />
-     <div class="bilty-actions">
-  <button onclick="printBilty()">Print</button>
-  <button onclick="downloadBiltyPDF()">PDF</button>
-  <button onclick="shareBilty()">Share</button>
+<input
+id="inConsignee"
+placeholder=" "
+oninput="fillBilty()"
+/>
+
+<label>Consignee Name</label>
+
+</div>
+      
+<div class="input-box">
+
+<input
+id="inConsigneeAddr"
+placeholder=" "
+oninput="fillBilty()"
+/>
+
+<label>Consignee Address</label>
+
+</div>
+
+<div class="input-box">
+
+<input
+id="inLR"
+placeholder=" "
+oninput="fillBilty()"
+/>
+
+<label>LR No</label>
+
+</div>
+      
+<div class="input-box">
+
+<input
+type="date"
+id="inDate"
+placeholder=" "
+oninput="fillBilty()"
+/>
+
+<label>Date</label>
+
+</div>
+
+<div class="input-box">
+<input id="inFrom" placeholder=" " oninput="fillBilty()" />
+<label>From</label>
+</div>
+      
+<div class="input-box">
+<input id="inTo" placeholder=" " oninput="fillBilty()" />
+<label>To</label>
+</div>
+
+<div class="input-box">
+<input id="inPkg" placeholder=" " oninput="fillBilty()" />
+<label>Total Car</label>
+</div>
+
+<div class="input-box">
+<input id="inDesc" placeholder=" " oninput="fillBilty()" />
+<label>Car Description (Name)</label>
+</div>
+      
+<div class="input-box">
+<input id="inVin" placeholder=" " oninput="fillBilty()" />
+<label>VIN / Chassis</label>
+</div>
+
+<div class="input-box">
+<input id="inLorry" placeholder=" " oninput="fillBilty()" />
+<label>Lorry No</label>
+</div>
+
+<div class="input-box">
+<input id="inGoodsValue" placeholder=" " oninput="fillBilty()" />
+<label>Declared Goods Value</label>
+</div>
+
+<div class="input-box">
+<input id="inConsignorSign" placeholder=" " oninput="fillBilty()" />
+<label>Consignor Name (Bottom Signature)</label>
+</div>
+
+<div class="bilty-actions">
+  <button onclick="shareBilty()">Share / Save</button>
+  <div class="search-box">
+
+<input
+id="searchLR"
+placeholder=" "
+/>
+
+<label>Search LR No</label>
+
+<button
+type="button"
+onclick="searchBilty()"
+>
+&#128269;
+</button>
+
+</div>
+<button onclick="updateBilty()">
+✏️ Update
+</button>
+<button onclick="downloadBiltyPDF()">PDF</button>
     <button onclick="resetBilty()">Reset</button>
-  </div>
-    </div>
+</div>
+
+</div>
 
 
     <div class="page">

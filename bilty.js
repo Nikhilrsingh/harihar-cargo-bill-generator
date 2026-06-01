@@ -1,3 +1,8 @@
+const url =
+"https://script.google.com/macros/s/AKfycbw6LK7wtkjcu8RMt7sw43h0z13cmThISJCJ8pVkO-0uFDz_kB4xGXt8LD_DdqapnTxc/exec";
+
+let searchedLR = "";
+
 function fillBilty(){
 
 document.getElementById("outConsignor").innerText =
@@ -54,6 +59,39 @@ document.getElementById("inPkg").value;
 
 document.getElementById("outConsignorSign").innerText =
 document.getElementById("inConsignorSign").value;
+
+updatePdfName();
+}
+
+function updatePdfName(){
+
+const consignor =
+document.getElementById("inConsignor").value.trim();
+
+const lr =
+document.getElementById("inLR").value.trim();
+
+const from =
+document.getElementById("inFrom").value.trim();
+
+const to =
+document.getElementById("inTo").value.trim();
+
+const pdfField =
+document.getElementById("inPdfName");
+
+if(
+consignor &&
+lr &&
+from &&
+to
+){
+
+pdfField.value =
+`${consignor} LR_${lr} ${from} to ${to}`;
+
+}
+
 }
 
 /* ============================= */
@@ -150,6 +188,93 @@ async function shareBilty(){
     return;
   }
 
+  // SAVE BILTY FIRST
+
+let rawDate =
+document.getElementById("inDate").value;
+
+let formattedDate = "";
+
+if(rawDate){
+
+let d = new Date(rawDate);
+
+let day =
+String(d.getDate()).padStart(2,"0");
+
+let month =
+String(d.getMonth()+1).padStart(2,"0");
+
+let year =
+d.getFullYear();
+
+formattedDate =
+day + "/" + month + "/" + year;
+
+}
+
+const saveData = {
+
+lr:
+document.getElementById("inLR").value,
+
+date:formattedDate,
+
+consignor:
+document.getElementById("inConsignor").value,
+
+consignorAddr:
+document.getElementById("inConsignorAddr").value,
+
+consignee:
+document.getElementById("inConsignee").value,
+
+consigneeAddr:
+document.getElementById("inConsigneeAddr").value,
+
+from:
+document.getElementById("inFrom").value,
+
+to:
+document.getElementById("inTo").value,
+
+pkg:
+document.getElementById("inPkg").value,
+
+desc:
+document.getElementById("inDesc").value,
+
+vin:
+document.getElementById("inVin").value,
+
+lorry:
+document.getElementById("inLorry").value,
+
+goodsValue:
+document.getElementById("inGoodsValue").value,
+
+sign:
+document.getElementById("inConsignorSign").value
+
+};
+
+const saveResponse =
+await fetch(url,{
+method:"POST",
+body:JSON.stringify(saveData)
+});
+
+const saveResult =
+await saveResponse.json();
+
+if(!saveResult.success){
+
+alert("❌ LR No Already Exists");
+
+return;
+
+}
+
   const bilty = document.querySelector(".page");
 
   const fileName = getBiltyFileName();
@@ -175,23 +300,354 @@ async function shareBilty(){
 
   try{
 
-    await navigator.share({
-      files:[file],
-      title:fileName,
-      text:"Harihar Cargo Bilty"
-    });
+await navigator.share({
+files:[file],
+title:fileName,
+text:"Harihar Cargo Bilty"
+});
 
-  }catch(err){
-    console.log(err);
-  }
+alert("✅ Bilty Saved & Shared");
+
+await resetBilty();
+
+}catch(err){
+
+console.log(err);
+
+}
 }
 
-function resetBilty(){
+async function resetBilty(){
 
-  document.querySelectorAll(".input-panel input").forEach(input=>{
-    input.value="";
-  });
+document.querySelectorAll(
+".input-panel input"
+).forEach(input=>{
 
-  fillBilty();
+if(input.id !== "inLR"){
+input.value="";
 }
 
+});
+
+fillBilty();
+
+const response =
+await fetch(
+url + "?action=nextLR"
+);
+
+const data =
+await response.json();
+
+document.getElementById("inLR").value =
+data.lr;
+
+fillBilty();
+
+}
+
+
+
+window.onload = function(){
+
+fetch(
+url + "?action=nextLR"
+)
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById("inLR").value =
+data.lr;
+
+fillBilty();
+
+});
+
+}
+
+
+
+async function saveBilty(){
+
+let rawDate =
+document.getElementById("inDate").value;
+
+let formattedDate = "";
+
+if(rawDate){
+
+let d = new Date(rawDate);
+
+let day =
+String(d.getDate()).padStart(2,"0");
+
+let month =
+String(d.getMonth()+1).padStart(2,"0");
+
+let year =
+d.getFullYear();
+
+formattedDate =
+day + "/" + month + "/" + year;
+
+}
+
+const data = {
+
+lr:
+document.getElementById("inLR").value,
+
+date:
+formattedDate,
+
+consignor:
+document.getElementById("inConsignor").value,
+
+consignorAddr:
+document.getElementById("inConsignorAddr").value,
+
+consignee:
+document.getElementById("inConsignee").value,
+
+consigneeAddr:
+document.getElementById("inConsigneeAddr").value,
+
+from:
+document.getElementById("inFrom").value,
+
+to:
+document.getElementById("inTo").value,
+
+pkg:
+document.getElementById("inPkg").value,
+
+desc:
+document.getElementById("inDesc").value,
+
+vin:
+document.getElementById("inVin").value,
+
+lorry:
+document.getElementById("inLorry").value,
+
+goodsValue:
+document.getElementById("inGoodsValue").value,
+
+sign:
+document.getElementById("inConsignorSign").value
+
+};
+
+fetch(url,{
+method:"POST",
+body:JSON.stringify(data)
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.success){
+
+alert("✅ Bilty Saved");
+
+}else{
+
+alert("❌ LR No Already Exists");
+
+}
+
+});
+
+}
+
+
+function searchBilty(){
+
+const lr =
+document.getElementById("searchLR").value.trim();
+
+if(lr === ""){
+
+alert("Enter LR No");
+
+return;
+
+}
+
+fetch(
+url +
+"?action=search&lr=" +
+encodeURIComponent(lr)
+)
+.then(res=>res.json())
+.then(data=>{
+
+  searchedLR = data.lr;
+if(!data.found){
+
+alert("LR Not Found");
+
+return;
+
+}
+
+document.getElementById("inLR").value =
+data.lr;
+
+document.getElementById("inDate").value =
+convertDateForInput(data.date);
+
+document.getElementById("inConsignor").value =
+data.consignor;
+
+document.getElementById("inConsignorAddr").value =
+data.consignorAddr;
+
+document.getElementById("inConsignee").value =
+data.consignee;
+
+document.getElementById("inConsigneeAddr").value =
+data.consigneeAddr;
+
+document.getElementById("inFrom").value =
+data.from;
+
+document.getElementById("inTo").value =
+data.to;
+
+document.getElementById("inPkg").value =
+data.pkg;
+
+document.getElementById("inDesc").value =
+data.desc;
+
+document.getElementById("inVin").value =
+data.vin;
+
+document.getElementById("inLorry").value =
+data.lorry;
+
+document.getElementById("inGoodsValue").value =
+data.goodsValue;
+
+document.getElementById("inConsignorSign").value =
+data.sign;
+
+fillBilty();
+
+alert("✅ Bilty Loaded");
+
+});
+
+}
+
+
+function convertDateForInput(dateString){
+
+let parts = dateString.split("/");
+
+return `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+}
+
+async function updateBilty(){
+
+if(searchedLR === ""){
+
+alert("Search LR First");
+
+return;
+
+}
+
+let rawDate =
+document.getElementById("inDate").value;
+
+let formattedDate = "";
+
+if(rawDate){
+
+let d = new Date(rawDate);
+
+let day =
+String(d.getDate()).padStart(2,"0");
+
+let month =
+String(d.getMonth()+1).padStart(2,"0");
+
+let year =
+d.getFullYear();
+
+formattedDate =
+day + "/" + month + "/" + year;
+
+}
+
+const updateData = {
+
+action:"update",
+
+oldLR:searchedLR,
+
+newLR:
+document.getElementById("inLR").value,
+
+date:formattedDate,
+
+consignor:
+document.getElementById("inConsignor").value,
+
+consignorAddr:
+document.getElementById("inConsignorAddr").value,
+
+consignee:
+document.getElementById("inConsignee").value,
+
+consigneeAddr:
+document.getElementById("inConsigneeAddr").value,
+
+from:
+document.getElementById("inFrom").value,
+
+to:
+document.getElementById("inTo").value,
+
+pkg:
+document.getElementById("inPkg").value,
+
+desc:
+document.getElementById("inDesc").value,
+
+vin:
+document.getElementById("inVin").value,
+
+lorry:
+document.getElementById("inLorry").value,
+
+goodsValue:
+document.getElementById("inGoodsValue").value,
+
+sign:
+document.getElementById("inConsignorSign").value
+
+};
+
+fetch(url,{
+method:"POST",
+body:JSON.stringify(updateData)
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.success){
+
+alert("✅ Bilty Updated");
+
+}else{
+
+alert("❌ Update Failed");
+
+}
+
+});
+
+}
