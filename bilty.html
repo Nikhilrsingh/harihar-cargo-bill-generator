@@ -133,7 +133,7 @@ oninput="fillBilty()"
 </div>
 
 <div class="bilty-actions">
-  <button onclick="shareBilty()">Share / Save</button>
+  <button onclick="shareBilty()">Share</button>
   <div class="search-box">
 
 <input
@@ -153,7 +153,19 @@ onclick="searchBilty()"
 </div>
 
 <button onclick="downloadBiltyPDF()">PDF</button>
-    <button onclick="resetBilty()">Reset</button>
+
+<div class="reset-row">
+
+<button onclick="resetBilty()">
+Reset
+</button>
+
+<button onclick="reloadPage()">
+🔄
+</button>
+
+</div>
+
 </div>
 
 </div>
@@ -318,9 +330,38 @@ onclick="searchBilty()"
         </div>
         <div class="sig-block">
           <div class="sig-space">
-            Rajesh Singh
-            <img src="./assets/sign.jpeg" alt="signature" class="sig-image" />
-          </div>
+
+            <div class="official-name">
+    Rajesh Singh
+</div>
+
+    <div class="cargo-stamp">
+
+        <div class="stamp-line1">
+            HARIHAR CARGO
+        </div>
+
+        <div class="stamp-line2">
+            CARRIERS
+        </div>
+
+        <div class="stamp-line3">
+            ★ ALL INDIA ★
+        </div>
+
+        <div class="stamp-line4">
+            AUTHORIZED
+        </div>
+
+    </div>
+
+    <img
+      src="./assets/sign.jpeg"
+      alt="signature"
+      class="sig-image"
+    />
+
+</div>
 
           <div class="sig-label official">
             NAME & SIGNATURE OF BOOKING OFFICIAL

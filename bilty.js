@@ -497,6 +497,7 @@ encodeURIComponent(lr)
 )
 .then(res=>res.json())
 .then(data=>{
+  console.log(data);
 
   searchedLR = data.lr;
 if(!data.found){
@@ -510,8 +511,26 @@ return;
 document.getElementById("inLR").value =
 data.lr;
 
+if(data.date){
+
+let d = new Date(data.date);
+
+if(!isNaN(d)){
+
 document.getElementById("inDate").value =
-convertDateForInput(data.date);
+d.toISOString().split("T")[0];
+
+}else{
+
+document.getElementById("inDate").value = "";
+
+}
+
+}else{
+
+document.getElementById("inDate").value = "";
+
+}
 
 document.getElementById("inConsignor").value =
 data.consignor;
@@ -666,5 +685,11 @@ alert("❌ Update Failed");
 }
 
 });
+
+}
+
+function reloadPage(){
+
+location.reload();
 
 }
