@@ -258,6 +258,18 @@ document.getElementById("inConsignorSign").value
 
 };
 
+if(searchedLR !== ""){
+
+saveData.action = "update";
+
+saveData.oldLR =
+searchedLR;
+
+saveData.newLR =
+document.getElementById("inLR").value;
+
+}
+
 const saveResponse =
 await fetch(url,{
 method:"POST",
@@ -266,6 +278,9 @@ body:JSON.stringify(saveData)
 
 const saveResult =
 await saveResponse.json();
+
+console.log(saveData);
+console.log(saveResult);
 
 if(!saveResult.success){
 
@@ -309,6 +324,8 @@ text:"Harihar Cargo Bilty"
 alert("✅ Bilty Saved & Shared");
 
 await resetBilty();
+
+searchedLR = "";
 
 }catch(err){
 

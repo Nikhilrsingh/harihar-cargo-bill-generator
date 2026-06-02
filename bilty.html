@@ -12,11 +12,6 @@
   <body>
     <div class="input-panel">
 
-<div class="input-box">
-<input id="inPdfName" placeholder=" " />
-<label>PDF File Name (Eg: Bilty_5143)</label>
-</div>
-
       <h3>Bilty Input</h3>
 
       <div class="input-box">
@@ -132,6 +127,11 @@ oninput="fillBilty()"
 <label>Consignor Name (Bottom Signature)</label>
 </div>
 
+<div class="input-box">
+<input id="inPdfName" placeholder=" " />
+<label>PDF File Name (Eg: LR No. 5410)</label>
+</div>
+
 <div class="bilty-actions">
   <button onclick="shareBilty()">Share / Save</button>
   <div class="search-box">
@@ -151,9 +151,7 @@ onclick="searchBilty()"
 </button>
 
 </div>
-<button onclick="updateBilty()">
-✏️ Update
-</button>
+
 <button onclick="downloadBiltyPDF()">PDF</button>
     <button onclick="resetBilty()">Reset</button>
 </div>
