@@ -11,6 +11,19 @@
 <body>
 
 <div class="form">
+  <div class="search-row">
+
+<input
+id="searchBill"
+placeholder="Search Bill No">
+
+<button
+type="button"
+id="searchBtn">
+🔍
+</button>
+
+</div>
 <div class="form-inputs">
 <div class="input-box">
 <input id="party" placeholder="Party Name" data-target="pParty">
@@ -166,19 +179,45 @@
 </div>
 </div>
 </div>
+
+<div class="pdf-name-box">
+
+<input
+id="pdfFileName"
+placeholder="PDF Name">
+
+</div>
 <div class="form-buttons">
-  <!-- <button onclick="downloadDOC()">DOC</button> -->
-<button onclick="exportAction(() => downloadPDF())">PDF</button>
 
-<button onclick="exportAction(() => window.print())">Print</button>
+<button onclick="exportAction(() => downloadPDF())">
+📄 PDF
+</button>
 
-<button onclick="exportAction(() => sharePDFWhatsApp())">Share PDF</button>
+<button
+type="button"
+id="saveShareBtn">
+🚚 Save & Share
+</button>
 
-<button type="button" onclick="saveBillToSheet()">Submit</button>
-<button onclick="resetData();alert('want to reset?')">Reset</button>
+<button onclick="reloadPage()">
+🔄 Reload
+</button>
+
 </div>
 </div>
 <br>
+
+<div class="history-box">
+
+<h3>Recent Bills</h3>
+
+<div id="historyList">
+
+No bills loaded
+
+</div>
+
+</div>
 
 <!-- ================= BILL ================= -->
 

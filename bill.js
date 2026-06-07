@@ -1,6 +1,30 @@
+window.addEventListener("beforeunload", function (e) {
+
+  const hasData =
+    party.value ||
+    billno.value ||
+    amount.value;
+
+  if (hasData) {
+
+    e.preventDefault();
+    e.returnValue = "";
+
+  }
+
+});
+
+
+let searchedBill = "";
+
 let excelFileHandle = null;
 
-let historyStack=[];
+let historyStack = [];
+
+let isEditMode = false;
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbxvnEGpw4fwJNRq9SBJMo-S_5sizSDSUevprradc6waUQqoLR_HN8Uwrm45eBlLTncj/exec";
 
 // LIVE UPDATE
 
@@ -8,6 +32,7 @@ document.querySelectorAll(".form input").forEach(input=>{
 input.addEventListener("input",()=>{
 saveState();
 updateBill();
+updatePdfName();
 });
 });
 
@@ -53,10 +78,6 @@ updateBill();
 // Share
 
 async function sharePDFWhatsApp(){
-
-let fileName = prompt("Enter PDF name:", "harihar-bill");
-
-if(!fileName) return;
 
 let bill = document.getElementById("bill");
 
@@ -106,8 +127,17 @@ alert("Sharing not supported on this browser");
 
 async function shareToWhatsApp(){
 
-  let fileName = prompt("Enter PDF name:", "harihar-bill");
-  if(!fileName) return;
+  let fileName =
+document
+.getElementById("pdfFileName")
+.value
+.trim();
+
+if(!fileName){
+
+fileName = "Harihar-Bill";
+
+}
 
   const bill = document.getElementById("bill");
 
@@ -159,9 +189,17 @@ async function shareToWhatsApp(){
 
 function downloadPDF(){
 
-let fileName = prompt("Enter PDF file name:", "harihar-bill");
+  let fileName =
+document
+.getElementById("pdfFileName")
+.value
+.trim();
 
-if(!fileName) return; // cancel if empty
+if(!fileName){
+
+fileName = "Harihar-Bill";
+
+}
 
 html2canvas(document.querySelector("#bill")).then(canvas=>{
 
@@ -311,7 +349,7 @@ function exportAction(callback) {
   }, 400);
 }
 
-window.onload = function(){
+window.onload = async function(){
 
 document.querySelectorAll(".tools select").forEach(select=>{
   applySize(select);
@@ -320,6 +358,29 @@ document.querySelectorAll(".tools select").forEach(select=>{
 document.querySelectorAll(".tools input[type=color]").forEach(color=>{
   applyColor(color);
 });
+
+try{
+
+const response =
+await fetch(
+"https://script.google.com/macros/s/AKfycbxvnEGpw4fwJNRq9SBJMo-S_5sizSDSUevprradc6waUQqoLR_HN8Uwrm45eBlLTncj/exec?action=nextBill"
+);
+
+const data =
+await response.json();
+
+document.getElementById("billno").value =
+data.bill;
+
+updateBill();
+
+loadRecentBills();
+
+}catch(err){
+
+console.log(err);
+
+}
 
 };
 
@@ -351,7 +412,7 @@ invoice: document.getElementById("invoice").value,
 amount: document.getElementById("amount").value
 };
 
-let url = "https://script.google.com/macros/s/AKfycbyPMOTKkLtBln0M4YexDvczafMHNlnuUrp81ExMOqE1QIA1LKPzpS4RKyFZtSSjiMhuIw/exec";
+let url = "https://script.google.com/macros/s/AKfycbxvnEGpw4fwJNRq9SBJMo-S_5sizSDSUevprradc6waUQqoLR_HN8Uwrm45eBlLTncj/exec";
 
 fetch(url,{
 method:"POST",
@@ -363,5 +424,308 @@ body: JSON.stringify(data)
 setTimeout(()=>{
 alert("✅ Saved to Excel");
 },800);
+
+}
+
+
+document
+.getElementById("searchBtn")
+.addEventListener(
+"click",
+searchBill
+);
+
+async function searchBill(){
+
+const billNo =
+document
+.getElementById("searchBill")
+.value
+.trim();
+
+if(!billNo){
+
+alert("Enter Bill Number");
+
+return;
+
+}
+
+try{
+
+const response =
+await fetch(
+SCRIPT_URL +
+"?action=searchBill&billno=" +
+encodeURIComponent(billNo)
+);
+
+const data =
+await response.json();
+
+if(!data){
+
+alert("Bill Not Found");
+
+return;
+
+}
+
+isEditMode = true;
+
+billno.value = data.billno || "";
+party.value = data.party || "";
+address.value = data.address || "";
+
+lrno.value = data.lr || "";
+invoice.value = data.invoice || "";
+vehicle.value = data.vehicle || "";
+
+from.value = data.from || "";
+to.value = data.to || "";
+amount.value = data.amount || "";
+
+updateBill();
+updatePdfName();
+
+alert("Bill Loaded");
+
+}catch(err){
+
+console.error(err);
+
+alert("Search Failed");
+
+}
+
+}
+
+
+document
+.getElementById("saveShareBtn")
+.addEventListener(
+"click",
+saveAndShare
+);
+
+async function saveAndShare(){
+
+try{
+
+if(isEditMode){
+
+await updateExistingBill();
+
+}else{
+
+await saveNewBill();
+
+}
+
+setTimeout(async ()=>{
+
+await sharePDFWhatsApp();
+
+},100);
+
+}catch(err){
+
+console.error(err);
+
+alert("Error");
+
+}
+
+}
+
+
+async function saveNewBill(){
+
+let data = {
+
+billno: billno.value,
+
+billdate: date.value,
+
+party: party.value,
+
+address: address.value,
+
+lr: lrno.value,
+
+lrdate: Datee.value,
+
+invoice: invoice.value,
+
+vehicle: vehicle.value,
+
+from: from.value,
+
+to: to.value,
+
+amount: amount.value
+
+};
+
+const response =
+await fetch(
+SCRIPT_URL,
+{
+method:"POST",
+body:JSON.stringify(data)
+}
+);
+
+const result =
+await response.json();
+
+if(result.status==="duplicate"){
+
+alert("Duplicate Bill Number");
+
+return;
+
+}
+
+alert("Saved Successfully");
+
+}
+
+
+async function updateExistingBill(){
+
+let data = {
+
+action:"update",
+
+billno: billno.value,
+
+billdate: date.value,
+
+party: party.value,
+
+address: address.value,
+
+lr: lrno.value,
+
+lrdate: Datee.value,
+
+invoice: invoice.value,
+
+vehicle: vehicle.value,
+
+from: from.value,
+
+to: to.value,
+
+amount: amount.value
+
+};
+
+await fetch(
+SCRIPT_URL,
+{
+method:"POST",
+body:JSON.stringify(data)
+}
+);
+
+alert("Bill Updated");
+
+}
+
+
+async function loadRecentBills(){
+
+try{
+
+const response =
+await fetch(
+SCRIPT_URL +
+"?action=recentBills"
+);
+
+const data =
+await response.json();
+
+const box =
+document.getElementById(
+"historyList"
+);
+
+box.innerHTML = "";
+
+data.forEach(row=>{
+
+const div =
+document.createElement("div");
+
+div.className =
+"history-item";
+
+div.innerHTML =
+`
+Bill: ${row[1]}
+&nbsp;&nbsp;
+${row[2]}
+&nbsp;&nbsp;
+₹${row[8]}
+`;
+
+div.onclick = ()=>{
+
+document
+.getElementById(
+"searchBill"
+)
+.value = row[1];
+
+searchBill();
+
+};
+
+box.appendChild(div);
+
+});
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+
+function updatePdfName(){
+
+const bill =
+billno.value.trim();
+
+const partyName =
+party.value.trim();
+
+const fromPlace =
+from.value.trim();
+
+const toPlace =
+to.value.trim();
+
+const clean = (text) =>
+text
+.replace(/[^a-zA-Z0-9 ]/g,"")
+.replace(/\s+/g,"-");
+
+document
+.getElementById("pdfFileName")
+.value =
+`Bill No:-${bill}_${clean(partyName)}_${clean(fromPlace)}_To_${clean(toPlace)}`;
+
+}
+
+
+function reloadPage(){
+  
+location.reload();
 
 }
