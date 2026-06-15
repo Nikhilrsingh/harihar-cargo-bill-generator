@@ -22,33 +22,73 @@ div.innerHTML = `
 <h3>🚗 Car ${carCount} Details</h3>
 
 <div class="input-box">
-  <input type="text" class="carname" required>
-  <label>Car Name</label>
+
+<input type="text" class="carname" required>
+
+<label>Car Name</label>
+
+<div class="suggestions carSuggestions"></div>
+
 </div>
 
 <div class="input-box">
-  <input type="text" class="carno" required>
-  <label>Car Number</label>
+
+<input type="text" class="carno" required>
+
+<label>Car Number</label>
+
 </div>
 
 <div class="input-box">
-  <input type="text" class="carvalue" required>
-  <label>Car Value</label>
+
+<input type="text" class="carvalue" required>
+
+<label>Car Value</label>
+
 </div>
 
 <div class="input-box">
-  <input type="text" class="packer" required>
-  <label>Packer Name</label>
+
+<input type="text" class="packer" required>
+
+<label>Packer Name</label>
+
 </div>
 
 <div class="input-box">
-  <input type="text" class="from" required>
-  <label>From</label>
+
+<input type="text" class="partyname" required>
+
+<label>Party Name</label>
+
 </div>
 
 <div class="input-box">
-  <input type="text" class="to" required>
-  <label>To</label>
+
+<input type="text" class="from" required>
+
+<label>From</label>
+
+<div class="suggestions fromSuggestions"></div>
+
+</div>
+
+<div class="input-box">
+
+<input type="text" class="to" required>
+
+<label>To</label>
+
+<div class="suggestions toSuggestions"></div>
+
+</div>
+
+<div class="input-box">
+
+<input type="text" class="pincode" required>
+
+<label>Pincode</label>
+
 </div>
 
 <div class="delete-icon" onclick="deleteCar(this)">
@@ -58,6 +98,8 @@ div.innerHTML = `
 `;
 
 carsContainer.appendChild(div);
+
+setupSuggestions();
 
 }
 
@@ -115,33 +157,41 @@ let carDetails = [];
 document.querySelectorAll("#carsContainer .car-block").forEach(block=>{
 
 let carname =
-block.querySelector(".carname").value;
+block.querySelector(".carname").value || "-";
 
 let carno =
-block.querySelector(".carno").value;
+block.querySelector(".carno").value || "-";
 
 let carvalue =
-block.querySelector(".carvalue").value;
+block.querySelector(".carvalue").value || "-";
 
 let packer =
-block.querySelector(".packer").value;
+block.querySelector(".packer").value || "-";
+
+let partyname =
+block.querySelector(".partyname").value || "-";
 
 let from =
-block.querySelector(".from").value;
+block.querySelector(".from").value || "-";
 
 let to =
-block.querySelector(".to").value;
+block.querySelector(".to").value || "-";
+
+let pincode =
+block.querySelector(".pincode").value || "-";
 
 // SAVE EACH CAR BLOCK
 carDetails.push(
 
 `🚗 CAR ${carDetails.length + 1}
 
-Car Name : ${carname}        ||        Packer : ${packer}
+Car Name : ${carname}            ||        Car No : ${carno}
 
-Car No : ${carno}            ||        From : ${from}
+Party Name : ${partyname}            ||        Packer : ${packer}
 
-Car Value : ${carvalue}      ||        To : ${to}
+From : ${from}            ||        To : ${to}
+
+Car Value : ${carvalue}            ||        Pincode : ${pincode}
 
 
 `
@@ -268,22 +318,28 @@ let block = blocks[index];
 if(!block) return;
 
 let carName =
-(car.match(/Car Name\s*:\s*(.*?)\s*\|\|/)||[])[1] || "";
-
-let packer =
-(car.match(/Packer\s*:\s*(.*)/)||[])[1] || "";
+(car.match(/Car Name\s*:\s*(.*?)\s*\|\|\s*Car No\s*:/)||[])[1] || "( - )";
 
 let carNo =
-(car.match(/Car No\s*:\s*(.*?)\s*\|\|/)||[])[1] || "";
+(car.match(/Car No\s*:\s*(.*?)(\n|$)/)||[])[1] || "( - )";
+
+let partyname =
+(car.match(/Party Name\s*:\s*(.*?)\s*\|\|\s*Packer\s*:/)||[])[1] || "( - )";
+
+let packer =
+(car.match(/Packer\s*:\s*(.*?)(\n|$)/)||[])[1] || "( - )";
 
 let from =
-(car.match(/From\s*:\s*(.*)/)||[])[1] || "";
-
-let carValue =
-(car.match(/Car Value\s*:\s*(.*?)\s*\|\|/)||[])[1] || "";
+(car.match(/From\s*:\s*(.*?)\s*\|\|\s*To\s*:/)||[])[1] || "( - )";
 
 let to =
-(car.match(/To\s*:\s*(.*)/)||[])[1] || "";
+(car.match(/To\s*:\s*(.*?)(\n|$)/)||[])[1] || "( - )";
+
+let carValue =
+(car.match(/Car Value\s*:\s*(.*?)\s*\|\|\s*Pincode\s*:/)||[])[1] || "( - )";
+
+let pincode =
+(car.match(/Pincode\s*:\s*(.*?)(\n|$)/)||[])[1] || "( - )";
 
 block.querySelector(".carname").value =
 carName.trim();
@@ -297,11 +353,17 @@ carValue.trim();
 block.querySelector(".packer").value =
 packer.trim();
 
+block.querySelector(".partyname").value =
+partyname ? partyname.trim() : "( - )";
+
 block.querySelector(".from").value =
 from.trim();
 
 block.querySelector(".to").value =
 to.trim();
+
+block.querySelector(".pincode").value =
+pincode ? pincode.trim() : "( - )";
 
 });
 
@@ -311,17 +373,93 @@ document.getElementById(
 "searchResult"
 ).innerHTML = `
 
-<div class="car-block">
+<div class="search-card">
 
 <h3>✅ Entry Found</h3>
 
-<p><b>Entry ID:</b> ${data.entryId}</p>
-<p><b>Date:</b> ${data.date}</p>
-<p><b>Trailer:</b> ${data.trailer}</p>
-<p><b>Transport:</b> ${data.transport}</p>
-<p><b>Mobile:</b> ${data.mobile}</p>
+<div class="top-info">
 
-<pre>${data.cars}</pre>
+<div class="top-item">
+
+🆔
+
+<div>
+
+<span>Entry ID</span>
+
+<b>${data.entryId}</b>
+
+</div>
+
+</div>
+
+<div class="top-item">
+
+📅
+
+<div>
+
+<span>Date</span>
+
+<b>${data.date}</b>
+
+</div>
+
+</div>
+
+<div class="top-item">
+
+🚛
+
+<div>
+
+<span>Trailer</span>
+
+<b>${data.trailer}</b>
+
+</div>
+
+</div>
+
+<div class="top-item">
+
+🏢
+
+<div>
+
+<span>Transport</span>
+
+<b>${data.transport}</b>
+
+</div>
+
+</div>
+
+<div class="top-item">
+
+📞
+
+<div>
+
+<span>Mobile</span>
+
+<b>${data.mobile}</b>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="cars-output">
+
+<pre>
+
+${data.cars.replaceAll("||","\n")}
+
+</pre>
+
+</div>
 
 </div>
 
@@ -374,32 +512,41 @@ let carDetails = [];
 document.querySelectorAll("#carsContainer .car-block").forEach(block=>{
 
 let carname =
-block.querySelector(".carname").value;
+block.querySelector(".carname").value || "-";
 
 let carno =
-block.querySelector(".carno").value;
+block.querySelector(".carno").value || "-";
 
 let carvalue =
-block.querySelector(".carvalue").value;
+block.querySelector(".carvalue").value || "-";
 
 let packer =
-block.querySelector(".packer").value;
+block.querySelector(".packer").value || "-";
+
+let partyname =
+block.querySelector(".partyname").value || "-";
 
 let from =
-block.querySelector(".from").value;
+block.querySelector(".from").value || "-";
 
 let to =
-block.querySelector(".to").value;
+block.querySelector(".to").value || "-";
+
+let pincode =
+block.querySelector(".pincode").value || "-";
 
 carDetails.push(
 
 `🚗 CAR ${carDetails.length + 1}
 
-Car Name : ${carname}        ||        Packer : ${packer}
+Car Name : ${carname}            ||        Car No : ${carno}
 
-Car No : ${carno}            ||        From : ${from}
+Party Name : ${partyname}            ||        Packer : ${packer}
 
-Car Value : ${carvalue}      ||        To : ${to}
+From : ${from}            ||        To : ${to}
+
+Car Value : ${carvalue}            ||        Pincode : ${pincode}
+
 
 `
 
@@ -447,5 +594,772 @@ alert("❌ Entry Not Found");
 }
 
 });
+
+}
+
+
+const allCars = [
+
+"Maruti Alto",
+
+"Maruti S-Presso",
+
+"Maruti WagonR",
+
+"Maruti Celerio",
+
+"Maruti Swift",
+
+"Maruti Baleno",
+
+"Maruti Dzire",
+
+"Maruti Brezza",
+
+"Maruti Fronx",
+
+"Maruti Ertiga",
+
+"Maruti XL6",
+
+"Maruti Jimny",
+
+"Hyundai Grand i10",
+
+"Hyundai i20",
+
+"Hyundai Exter",
+
+"Hyundai Venue",
+
+"Hyundai Creta",
+
+"Hyundai Alcazar",
+
+"Hyundai Verna",
+
+"Tata Tiago",
+
+"Tata Tigor",
+
+"Tata Altroz",
+
+"Tata Punch",
+
+"Tata Nexon",
+
+"Tata Curvv",
+
+"Tata Harrier",
+
+"Tata Safari",
+
+"Mahindra Bolero",
+
+"Mahindra Bolero Neo",
+
+"Mahindra Thar",
+
+"Mahindra XUV 3XO",
+
+"Mahindra XUV700",
+
+"Mahindra Scorpio N",
+
+"Mahindra Scorpio Classic",
+
+"Kia Sonet",
+
+"Kia Seltos",
+
+"Kia Carens",
+
+"Kia Syros",
+
+"Honda Amaze",
+
+"Honda City",
+
+"Honda Elevate",
+
+"Toyota Glanza",
+
+"Toyota Taisor",
+
+"Toyota Rumion",
+
+"Toyota Innova Hycross",
+
+"Toyota Fortuner",
+
+"Renault Kwid",
+
+"Renault Kiger",
+
+"Nissan Magnite",
+
+"Volkswagen Virtus",
+
+"Volkswagen Taigun",
+
+"Skoda Slavia",
+
+"Skoda Kushaq",
+
+"MG Astor",
+
+"MG Hector",
+
+"MG Windsor EV",
+
+"BYD Atto 3",
+
+"BYD Seal"
+
+];
+
+const cities = [
+
+"Nagpur",
+
+"Pune",
+
+"Mumbai",
+
+"Nashik",
+
+"Aurangabad",
+
+"Kolhapur",
+
+"Solapur",
+
+"Amravati",
+
+"Akola",
+
+"Jalgaon",
+
+"Raipur",
+
+"Bilaspur",
+
+"Durg",
+
+"Bhilai",
+
+"Jagdalpur",
+
+"Indore",
+
+"Bhopal",
+
+"Jabalpur",
+
+"Gwalior",
+
+"Ujjain",
+
+"Delhi",
+
+"Gurgaon",
+
+"Faridabad",
+
+"Noida",
+
+"Ghaziabad",
+
+"Jaipur",
+
+"Udaipur",
+
+"Kota",
+
+"Jodhpur",
+
+"Ahmedabad",
+
+"Surat",
+
+"Vadodara",
+
+"Rajkot",
+
+"Gandhinagar",
+
+"Hyderabad",
+
+"Warangal",
+
+"Bengaluru",
+
+"Mysuru",
+
+"Chennai",
+
+"Coimbatore",
+
+"Madurai",
+
+"Kochi",
+
+"Thiruvananthapuram",
+
+"Goa",
+
+"Kolkata",
+
+"Bhubaneswar",
+
+"Lucknow",
+
+"Kanpur",
+
+"Varanasi",
+
+"Prayagraj",
+
+"Chandigarh",
+
+"Ludhiana",
+
+"Amritsar"
+
+];
+
+const cityPincode = {
+
+"Nagpur":"440001",
+
+"Pune":"411001",
+
+"Mumbai":"400001",
+
+"Nashik":"422001",
+
+"Aurangabad":"431001",
+
+"Kolhapur":"416003",
+
+"Solapur":"413001",
+
+"Amravati":"444601",
+
+"Akola":"444001",
+
+"Jalgaon":"425001",
+
+"Raipur":"492001",
+
+"Bilaspur":"495001",
+
+"Durg":"491001",
+
+"Bhilai":"490006",
+
+"Jagdalpur":"494001",
+
+"Indore":"452001",
+
+"Bhopal":"462001",
+
+"Jabalpur":"482001",
+
+"Gwalior":"474001",
+
+"Ujjain":"456001",
+
+"Delhi":"110001",
+
+"Gurgaon":"122001",
+
+"Faridabad":"121001",
+
+"Noida":"201301",
+
+"Ghaziabad":"201001",
+
+"Jaipur":"302001",
+
+"Udaipur":"313001",
+
+"Kota":"324001",
+
+"Jodhpur":"342001",
+
+"Ahmedabad":"380001",
+
+"Surat":"395003",
+
+"Vadodara":"390001",
+
+"Rajkot":"360001",
+
+"Gandhinagar":"382010",
+
+"Hyderabad":"500001",
+
+"Warangal":"506002",
+
+"Bengaluru":"560001",
+
+"Mysuru":"570001",
+
+"Chennai":"600001",
+
+"Coimbatore":"641001",
+
+"Madurai":"625001",
+
+"Kochi":"682011",
+
+"Thiruvananthapuram":"695001",
+
+"Goa":"403001",
+
+"Kolkata":"700001",
+
+"Bhubaneswar":"751001",
+
+"Lucknow":"226001",
+
+"Kanpur":"208001",
+
+"Varanasi":"221001",
+
+"Prayagraj":"211001",
+
+"Chandigarh":"160001",
+
+"Ludhiana":"141001",
+
+"Amritsar":"143001"
+
+};
+
+function setupSuggestions(){
+
+document.querySelectorAll(".car-block")
+.forEach(block=>{
+
+connectSuggestion(
+
+block,
+
+".carname",
+
+".carSuggestions",
+
+allCars
+
+);
+
+connectSuggestion(
+
+block,
+
+".from",
+
+".fromSuggestions",
+
+cities
+
+);
+
+connectSuggestion(
+
+block,
+
+".to",
+
+".toSuggestions",
+
+cities
+
+);
+
+});
+
+}
+
+
+function connectSuggestion(
+
+block,
+
+inputClass,
+
+boxClass,
+
+data
+
+){
+
+const input =
+block.querySelector(inputClass);
+
+const box =
+block.querySelector(boxClass);
+
+if(!input || !box) return;
+
+input.oninput = function(){
+
+const value =
+this.value.toLowerCase().trim();
+
+if(value === ""){
+
+box.innerHTML = "";
+
+box.style.display = "none";
+
+return;
+
+}
+
+const matches =
+data.filter(item=>
+
+item.toLowerCase()
+.includes(value)
+
+);
+
+box.innerHTML = "";
+
+matches.slice(0,3)
+.forEach(item=>{
+
+const div =
+document.createElement("div");
+
+div.className =
+"suggestion-item";
+
+div.innerText =
+item;
+
+div.onclick = ()=>{
+
+input.value =
+item;
+
+box.style.display =
+"none";
+
+if(
+input.classList.contains("to")
+){
+
+const pincodeInput =
+block.querySelector(".pincode");
+
+if(
+cityPincode[item]
+){
+
+pincodeInput.value =
+cityPincode[item];
+
+}
+
+}
+
+};
+
+box.appendChild(div);
+
+});
+
+box.style.display =
+matches.length
+? "block"
+: "none";
+
+};
+
+}
+
+setupSuggestions();
+
+
+function shareEntry(){
+
+if(selectedEntryId === ""){
+
+alert(
+"Search an entry first"
+);
+
+return;
+
+}
+
+const popup =
+
+document.getElementById(
+"sharePopup"
+);
+
+const list =
+
+document.getElementById(
+"shareCarsList"
+);
+
+list.innerHTML = "";
+
+document
+.querySelectorAll(".car-block")
+.forEach((block,index)=>{
+
+const carName =
+
+block.querySelector(".carname")
+.value || "-";
+
+list.innerHTML +=
+
+`
+
+<div class="share-item">
+
+<label>
+
+<input
+
+type="checkbox"
+
+class="shareSelection"
+
+value="${index}"
+
+checked>
+
+🚗 Car ${index+1}
+
+(${carName})
+
+</label>
+
+</div>
+
+`;
+
+});
+
+popup.style.display =
+"flex";
+
+}
+
+
+function closeSharePopup(){
+
+document.getElementById(
+"sharePopup"
+).style.display = "none";
+
+}
+
+
+
+function copySelectedCars(){
+
+let message =
+
+`🚚 HARIHAR CARGO CARRIERS
+
+🆔 Entry ID : ${selectedEntryId}
+
+📅 Date : ${document.getElementById("date")
+.value
+.split("-")
+.reverse()
+.join("-")}
+
+🚛 Trailer : ${document.getElementById("trailer").value}
+
+🏢 Transport : ${document.getElementById("transport").value}
+
+📞 Mobile : ${document.getElementById("mobile").value}
+
+━━━━━━━━━━━━━━
+
+`;
+
+const selectedCars =
+
+document.querySelectorAll(
+".shareSelection:checked"
+);
+
+if(
+selectedCars.length === 0
+){
+
+alert(
+"Select at least 1 car"
+);
+
+return;
+
+}
+
+
+selectedCars.forEach(item=>{
+
+const index =
+item.value;
+
+const block =
+
+document.querySelectorAll(
+".car-block"
+)[index];
+
+message +=
+
+`🚗 CAR ${Number(index)+1}
+
+Car Name : ${block.querySelector(".carname").value}
+
+Car No : ${block.querySelector(".carno").value}
+
+Party Name : ${block.querySelector(".partyname").value}
+
+Packer : ${block.querySelector(".packer").value}
+
+From : ${block.querySelector(".from").value}
+
+To : ${block.querySelector(".to").value}
+
+Car Value : ${block.querySelector(".carvalue").value}
+
+Pincode : ${block.querySelector(".pincode").value}
+
+━━━━━━━━━━━━━━
+
+`;
+
+});
+
+
+if(navigator.share){
+
+navigator.share({
+
+text:message
+
+});
+
+}else{
+
+navigator.clipboard
+.writeText(message);
+
+alert(
+"✅ Copied"
+);
+
+}
+
+closeSharePopup();
+
+}
+
+
+function shareSelectedCars(){
+
+let message =
+
+`🚚 HARIHAR CARGO CARRIERS
+
+🆔 Entry ID : ${selectedEntryId}
+
+📅 Date : ${document.getElementById("date")
+.value
+.split("-")
+.reverse()
+.join("-")}
+
+🚛 Trailer : ${document.getElementById("trailer").value}
+
+🏢 Transport : ${document.getElementById("transport").value}
+
+📞 Mobile : ${document.getElementById("mobile").value}
+
+━━━━━━━━━━━━━━
+
+`;
+
+const selectedCars =
+
+document.querySelectorAll(
+".shareSelection:checked"
+);
+
+if(
+selectedCars.length === 0
+){
+
+alert(
+"Select at least 1 car"
+);
+
+return;
+
+}
+
+selectedCars.forEach(item=>{
+
+const index =
+item.value;
+
+const block =
+
+document.querySelectorAll(
+".car-block"
+)[index];
+
+message +=
+
+`🚗 CAR ${Number(index)+1}
+
+Car Name : ${block.querySelector(".carname").value}
+
+Car No : ${block.querySelector(".carno").value}
+
+Party Name : ${block.querySelector(".partyname").value}
+
+Packer : ${block.querySelector(".packer").value}
+
+From : ${block.querySelector(".from").value}
+
+To : ${block.querySelector(".to").value}
+
+Car Value : ${block.querySelector(".carvalue").value}
+
+Pincode : ${block.querySelector(".pincode").value}
+
+━━━━━━━━━━━━━━
+
+`;
+
+});
+
+window.open(
+
+"https://wa.me/?text=" +
+
+encodeURIComponent(message),
+
+"_blank"
+
+);
+
+closeSharePopup();
 
 }

@@ -41,8 +41,13 @@
 <h3>🚗 Car 1 Details</h3>
 
 <div class="input-box">
+
   <input type="text" class="carname" required>
+
   <label>Car Name</label>
+
+  <div class="suggestions carSuggestions"></div>
+
 </div>
 
 <div class="input-box">
@@ -61,13 +66,47 @@
 </div>
 
 <div class="input-box">
-  <input type="text" class="from" required>
-  <label>From</label>
+
+<input type="text"
+
+class="partyname"
+
+required>
+
+<label>Party Name</label>
+
 </div>
 
 <div class="input-box">
+
+  <input type="text" class="from" required>
+
+  <label>From</label>
+
+  <div class="suggestions fromSuggestions"></div>
+
+</div>
+
+<div class="input-box">
+
   <input type="text" class="to" required>
+
   <label>To</label>
+
+  <div class="suggestions toSuggestions"></div>
+
+</div>
+
+<div class="input-box">
+
+<input type="text"
+
+class="pincode"
+
+required>
+
+<label>Pincode</label>
+
 </div>
 
 <div class="delete-icon" onclick="deleteCar(this)">
@@ -93,11 +132,56 @@ Submit Entry
 <button type="button" onclick="searchEntry()">
 🔍 Search Entry
 </button>
-<div id="searchResult"></div>
 
 <button type="button" onclick="updateEntry()">
 ✏️ Update Entry
 </button>
+
+<button type="button"
+
+onclick="shareEntry()">
+
+📤 Share Entry
+
+</button>
+
+<div id="searchResult"></div>
+
+
+</div>
+
+<div id="sharePopup">
+
+<div class="share-box">
+
+<h3>Select Cars To Share</h3>
+
+<div id="shareCarsList">
+
+</div>
+
+<button
+onclick="copySelectedCars()">
+
+📋 Copy Selected
+
+</button>
+
+<button
+onclick="shareSelectedCars()">
+
+🟢 Share WhatsApp
+
+</button>
+
+<button
+onclick="closeSharePopup()">
+
+❌ Close
+
+</button>
+
+</div>
 
 </div>
 
