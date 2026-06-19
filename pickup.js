@@ -1,3 +1,6 @@
+let lastSubmittedData = null;
+
+
 // 🔴 PASTE YOUR GOOGLE WEB APP URL HERE
 let url = "https://script.google.com/macros/s/AKfycbwe3QH_UHcDDWyPzdFtVc8VtrjOVUQvCK_IYzfvV6JpRMd8uU4P-pAXsqX8LWuHLQVYvw/exec";
 
@@ -219,22 +222,46 @@ carDetails.join("")
 
 };
 
+lastSubmittedData = data;
+
 // SEND DATA
 fetch(url,{
-method:"POST",
-mode:"no-cors",
-body: JSON.stringify(data)
-});
 
-// SUCCESS MESSAGE
-setTimeout(()=>{
+method:"POST",
+
+body:JSON.stringify(data)
+
+})
+
+.then(res=>res.json())
+
+.then(result=>{
+
+selectedEntryId = result.entryId;
 
 alert(
+
 "✅ Pickup Entry Saved\n\n" +
-"Entry ID: " + data.entryId
+
+"Entry ID : " +
+
+result.entryId
+
 );
 
-},800);
+openBiltyPopup();
+
+})
+
+.catch(()=>{
+
+alert(
+
+"❌ Error Saving Entry"
+
+);
+
+});
 
 }
 
@@ -1792,5 +1819,162 @@ win.print();
 },700);
 
 closeSharePopup();
+
+}
+
+
+function openBiltyPopup(){
+
+const popup =
+
+document.getElementById(
+"biltyPopup"
+);
+
+const list =
+
+document.getElementById(
+"biltyCarsList"
+);
+
+list.innerHTML = "";
+
+document
+.querySelectorAll(".car-block")
+.forEach((block,index)=>{
+
+const carName =
+
+block.querySelector(".carname")
+.value || "-";
+
+list.innerHTML +=
+
+`
+
+<div class="share-item">
+
+<label>
+
+<input
+
+type="checkbox"
+
+class="biltySelection"
+
+value="${index}"
+
+checked>
+
+🚗 Car ${index+1}
+
+(${carName})
+
+</label>
+
+</div>
+
+`;
+
+});
+
+popup.style.display =
+
+"flex";
+
+}
+
+
+
+function closeBiltyPopup(){
+
+document.getElementById(
+"biltyPopup"
+).style.display =
+
+"none";
+
+}
+
+
+
+function createSelectedBilty(){
+
+const selected =
+
+[
+...document.querySelectorAll(
+".biltySelection:checked"
+)
+
+].map(
+
+item=>Number(
+item.value
+)
+
+);
+
+if(
+
+selected.length===0
+
+){
+
+alert(
+
+"Select at least one car"
+
+);
+
+return;
+
+}
+
+fetch(
+
+url,
+
+{
+
+method:"POST",
+
+body:JSON.stringify({
+
+action:"createSelectedBilty",
+
+data:lastSubmittedData,
+
+selectedCars:selected
+
+})
+
+}
+
+)
+
+.then(r=>r.json())
+
+.then(()=>{
+
+alert(
+
+"✅ Bilty Created"
+
+);
+
+closeBiltyPopup();
+
+})
+
+.catch(()=>{
+
+alert(
+
+"❌ Bilty Failed"
+
+);
+
+});
 
 }
