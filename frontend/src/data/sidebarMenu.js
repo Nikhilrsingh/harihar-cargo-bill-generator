@@ -1,4 +1,5 @@
 import {
+  MdBusiness,
   MdDashboard,
   MdDescription,
   MdAssignment,
@@ -38,6 +39,11 @@ export const sidebarMenu = [
       { title: "Customers", icon: MdPeople, path: "#" },
       { title: "Vehicles", icon: MdDirectionsCar, path: "#" },
       { title: "Drivers", icon: MdPerson, path: "#" },
+      {
+    title: "Company",
+    icon: MdBusiness,
+    path: "/company",
+},
     ],
   },
 
