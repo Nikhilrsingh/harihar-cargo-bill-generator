@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Harihar Cargo System</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#f2f2f2;
+font-family:Arial;
+}
+
+.menu{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 15px rgba(0,0,0,.2);
+text-align:center;
+width:300px;
+}
+
+.menu h2{
+margin-bottom:20px;
+color:#c40000;
+}
+
+.menu button{
+width:100%;
+padding:14px;
+font-size:17px;
+margin:10px 0;
+border:none;
+border-radius:6px;
+background:#c40000;
+color:white;
+cursor:pointer;
+}
+
+.menu button:hover{
+background:#900000;
+}
+
+
+#loginOverlay{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:white;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+gap:20px;
+
+z-index:999999;
+
+}
+
+#googleLogin{
+
+padding:12px 20px;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+</style>
+</head>
+
+<body>
+
+    <div id="loginOverlay">
+
+<h2>Harihar Cargo Carriers</h2>
+
+<button id="googleLogin">
+Sign in with Google
+</button>
+
+</div>
+
+<div class="menu">
+
+<h2>Harihar Cargo System</h2>
+
+<a href="pages/bill.html" target="_blank">
+<button>📄 BILL Generator</button>
+</a>
+
+<a href="pages/bilty.html" target="_blank">
+<button>🚚 BILTY Generator</button>
+</a>
+
+<a href="pages/quotation.html" target="_blank">
+<button>💰 QUOTATION Generator</button>
+</a>
+
+<a href="pages/pickup.html" target="_blank">
+<button>🚛 Loading Entries</button>
+</a>
+
+<a href="https://docs.google.com/spreadsheets/d/1O9qyELtgWWOffMFvuYr5-JY093Xoc9T6KvMAgVt_IWY/edit?usp=sharing" target="_blank">
+<button>📊 BILL EXCEL</button>
+</a>
+
+<a href="https://docs.google.com/spreadsheets/d/1ErXuKdBftp2J_cPH_bSx-tETbpFw7_xJyllWEajbxxY/edit?usp=sharing" target="_blank">
+<button>📋 Loading EXCEL</button>
+</a>
+
+<a href="https://docs.google.com/spreadsheets/d/1xTh7iV2jHCre6v2U-sgtdVEw7RRxOwcjEXyO4skKx04/edit" target="_blank">
+<button>🧾 Bilty Excel</button>
+</a>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+
+<script>
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAt4MFBZCER4gtT2ia-PMiBrE-aFfloYTI",
+
+authDomain: "hariharcarcarriers.firebaseapp.com",
+
+projectId: "hariharcarcarriers",
+
+storageBucket: "hariharcarcarriers.firebasestorage.app",
+
+messagingSenderId: "459435220613",
+
+appId: "1:459435220613:web:5217b96d4d2765891e53ec"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+</script>
+
+<script>
+
+const allowedEmails = [
+
+"nikhillsinghh1020@gmail.com",
+
+"hariharcarcarrier@gmail.com",
+
+"ankitk81926@gmail.com"
+
+];
+
+const auth = firebase.auth();
+
+document
+.getElementById("googleLogin")
+.addEventListener("click",()=>{
+
+const provider =
+new firebase.auth.GoogleAuthProvider();
+
+auth.signInWithPopup(provider);
+
+});
+
+auth.onAuthStateChanged(user=>{
+
+if(!user){
+
+document
+.getElementById("loginOverlay")
+.style.display = "flex";
+
+return;
+
+}
+
+if(
+!allowedEmails.includes(
+user.email
+)
+){
+
+alert(
+"Kya Karoge Access Leke??😏\n\n" +
+user.email
+);
+
+auth.signOut();
+
+return;
+
+}
+
+document
+.getElementById("loginOverlay")
+.style.display = "none";
+
+});
+
+</script>
+
+</body>
+</html>
