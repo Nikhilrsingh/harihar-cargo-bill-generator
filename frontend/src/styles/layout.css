@@ -1,0 +1,144 @@
+.app-layout{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:var(--sidebar);
+    color:white;
+}
+
+.main-wrapper{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+    align-items:center;
+
+    padding:0 24px;
+}
+
+.page-content{
+    flex:1;
+    padding:24px;
+    background:var(--background);
+}
+
+.logo{
+    padding:24px;
+    font-size:20px;
+    font-weight:700;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar nav{
+    padding:18px 0;
+}
+
+.menu-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:14px 24px;
+
+    color:white;
+
+    transition:.25s;
+}
+
+.menu-item:hover{
+    background:rgba(255,255,255,.08);
+}
+
+.menu-item span{
+    font-size:15px;
+}
+
+.menu-heading{
+    padding:20px 24px 8px;
+    font-size:11px;
+    letter-spacing:1px;
+    color:#9CA3AF;
+    font-weight:600;
+    text-transform:uppercase;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 30px;
+
+    background:#fff;
+
+    border-bottom:1px solid var(--border);
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.search-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    background:#F3F4F6;
+
+    padding:10px 15px;
+
+    border-radius:10px;
+
+    width:260px;
+}
+
+.search-box input{
+    border:none;
+    background:transparent;
+    outline:none;
+    width:100%;
+}
+
+.icon-btn{
+    border:none;
+    background:#F3F4F6;
+
+    width:44px;
+    height:44px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.profile h4{
+    font-size:15px;
+}
+
+.profile span{
+    font-size:13px;
+    color:#6B7280;
+}
+
+.active-menu{
+    background:rgba(255,255,255,.12);
+    border-right:4px solid var(--primary);
+}
