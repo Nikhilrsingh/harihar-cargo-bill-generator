@@ -1,22 +1,26 @@
 :root{
 
-    --primary:#B71C1C;
+    --primary:#DC2626;
+    --primary-hover:#B91C1C;
 
-    --sidebar:#1E1E2F;
+    --sidebar:#111827;
+    --sidebar-hover:#1F2937;
 
-    --background:#F5F7FA;
+    --background:#F8FAFC;
 
-    --card:#FFFFFF;
-
-    --text:#1E1E2F;
+    --surface:#FFFFFF;
 
     --border:#E5E7EB;
 
-    --success:#22C55E;
+    --text:#111827;
 
-    --warning:#F59E0B;
+    --text-light:#6B7280;
 
-    --danger:#EF4444;
+    --success:#16A34A;
+    --warning:#D97706;
+    --danger:#DC2626;
+
+    --shadow:0 10px 30px rgba(0,0,0,.05);
 
     --radius:16px;
 

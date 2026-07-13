@@ -6,22 +6,37 @@ import {
 } from "react-icons/md";
 
 const actions = [
-  {
-    title: "New Bilty",
-    icon: MdDescription,
-  },
-  {
-    title: "New Invoice",
-    icon: MdReceiptLong,
-  },
-  {
-    title: "New Loading",
-    icon: MdLocalShipping,
-  },
-  {
-    title: "New Booking",
-    icon: MdAssignment,
-  },
+
+    {
+        title:"New Booking",
+        icon:MdAssignment,
+    },
+
+    {
+        title:"New Pickup",
+        icon:MdLocalShipping,
+    },
+
+    {
+        title:"New Loading",
+        icon:MdLocalShipping,
+    },
+
+    {
+        title:"Generate Bilty",
+        icon:MdDescription,
+    },
+
+    {
+        title:"Create Invoice",
+        icon:MdReceiptLong,
+    },
+
+    {
+        title:"Add Customer",
+        icon:MdAssignment,
+    }
+
 ];
 
 function QuickActions() {

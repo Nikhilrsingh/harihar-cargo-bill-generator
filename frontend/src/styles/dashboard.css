@@ -27,24 +27,43 @@
 }
 
 .stat-card{
+
     background:#fff;
+
+    border:1px solid #E5E7EB;
+
     border-radius:16px;
-    padding:22px;
-    display:flex;
-    align-items:center;
-    gap:18px;
-    box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+    padding:18px;
+
+    transition:.2s;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+
 }
 
 .stat-icon{
-    width:60px;
-    height:60px;
-    border-radius:14px;
-    background:#F3F4F6;
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:16px;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
-    color:var(--primary);
+
+    flex-shrink:0;
+
 }
 
 .stat-content h2{
@@ -71,27 +90,45 @@
 }
 
 .action-grid{
-    margin-top:20px;
+
     display:grid;
+
     grid-template-columns:repeat(2,1fr);
-    gap:15px;
+
+    gap:16px;
+
 }
 
 .action-btn{
+
     display:flex;
+
     align-items:center;
-    gap:12px;
-    padding:16px;
-    border:none;
-    border-radius:12px;
-    background:#F3F4F6;
-    cursor:pointer;
-    transition:.25s;
+
+    justify-content:flex-start;
+
+    gap:14px;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    background:#fff;
+
+    border:1px solid #E5E7EB;
+
+    min-height:70px;
+
+    transition:.2s;
+
 }
 
 .action-btn:hover{
-    background:var(--primary);
-    color:white;
+
+    border-color:var(--primary);
+
+    transform:translateY(-2px);
+
 }
 
 .recent-activity ul{
@@ -106,4 +143,111 @@
 
 .recent-activity li:last-child{
     border-bottom:none;
+}
+
+.dashboard-date{
+    text-align:right;
+}
+
+.dashboard-date p{
+
+    font-size:18px;
+
+    color:#6B7280;
+
+}
+
+.user-name{
+
+    color:var(--primary);
+
+    font-weight:700;
+
+}
+
+.dashboard-header p{
+    color:#6B7280;
+    font-size:16px;
+    margin:0;
+}
+
+.dashboard-date h2{
+
+    font-size:24px;
+
+}
+.dashboard-date p{
+    font-size:16px;
+    color:#6B7280;
+}
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:24px;
+
+    align-items:start;
+
+}
+
+.dashboard-left,
+.dashboard-right{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+.dashboard-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#fff;
+
+    padding:24px 32px;
+
+    border-radius:16px;
+
+    margin-bottom:24px;
+
+    min-height:90px;
+
+}
+
+.dashboard-header h1{
+
+    font-size:28px;
+
+    margin-bottom:8px;
+
+}
+
+.dashboard-header p{
+
+    font-size:17px;
+
+    color:#6B7280;
+
+    margin:0;
+
+}
+
+.dashboard-date{
+
+    font-size:17px;
+
+    font-weight:600;
+
+    color:#6B7280;
+
 }

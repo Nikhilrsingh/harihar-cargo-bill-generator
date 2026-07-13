@@ -5,9 +5,15 @@
 }
 
 body{
-    font-family: "Poppins", sans-serif;
-    background:#F5F7FA;
-    color:#1E1E2F;
+
+    margin:0;
+
+    background:#F8FAFC;
+
+    color:var(--text);
+
+    font-family:Inter,sans-serif;
+
 }
 
 a{

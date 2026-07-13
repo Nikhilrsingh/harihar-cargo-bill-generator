@@ -16,7 +16,15 @@ const handleLogout = async () => {
         <aside className="sidebar">
 
             <div className="logo">
-                <h2>CarTransport Pro</h2>
+                <div>
+
+    <h2>CarTransport</h2>
+
+    <span className="logo-subtitle">
+        PRO
+    </span>
+
+</div>
             </div>
 
             {sidebarMenu.map((group) => (

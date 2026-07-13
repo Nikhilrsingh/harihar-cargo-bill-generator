@@ -1,18 +1,39 @@
-function StatCard({ title, value, icon: Icon }) {
-  return (
-    <div className="stat-card">
+function StatCard({
+    title,
+    value,
+    icon: Icon,
+    color,
+    bg
+}) {
 
-      <div className="stat-icon">
-        <Icon size={34} />
-      </div>
+    return (
 
-      <div className="stat-content">
-        <h2>{value}</h2>
-        <p>{title}</p>
-      </div>
+        <div className="stat-card">
 
-    </div>
-  );
+            <div
+                className="stat-icon"
+                style={{
+                    background:bg,
+                    color:color
+                }}
+            >
+
+                <Icon size={30} />
+
+            </div>
+
+            <div className="stat-content">
+
+                <h2>{value}</h2>
+
+                <p>{title}</p>
+
+            </div>
+
+        </div>
+
+    );
+
 }
 
 export default StatCard;

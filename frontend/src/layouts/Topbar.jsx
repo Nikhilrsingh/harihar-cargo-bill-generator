@@ -1,54 +1,116 @@
 import {
-  MdSearch,
-  MdNotificationsNone,
-  MdAccountCircle,
-} from "react-icons/md";
+    Search,
+    Bell,
+    Settings,
+    Building2,
+    ChevronDown,
+} from "lucide-react";
+
+import { auth } from "../firebase/firebaseConfig";
+import useCompany from "../hooks/useCompany";
 
 function Topbar() {
-  return (
-    <header className="topbar">
 
-      <div className="topbar-left">
+    const userName =
+        auth.currentUser?.displayName ||
+        "Nikhil Singh";
 
-        <h2>Dashboard</h2>
+        const { company } = useCompany();
 
-      </div>
+    const initials = userName
+        .split(" ")
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase();
 
-      <div className="topbar-right">
+    return (
 
-        <div className="search-box">
+        <header className="topbar">
 
-          <MdSearch size={20} />
+            {/* Company */}
 
-          <input
-            type="text"
-            placeholder="Search..."
-          />
+            <div className="company-info">
 
-        </div>
+               <div className="company-icon">
 
-        <button className="icon-btn">
-          <MdNotificationsNone size={24} />
-        </button>
+    {company?.logo ? (
 
-        <div className="profile">
+        <img
+            src={company.logo}
+            alt="Company Logo"
+        />
 
-          <MdAccountCircle size={38} />
+    ) : (
 
-          <div>
+        <Building2 size={22} />
 
-            <h4>Nikhil Singh</h4>
+    )}
 
-            <span>Super Admin</span>
+</div>
 
-          </div>
+                <div>
 
-        </div>
+                    <h3>
+    {company?.companyName || "Company Name"}
+</h3>
 
-      </div>
+                    <p>
+    {company?.tagline || "Transport Management System"}
+</p>
 
-    </header>
-  );
+                </div>
+
+            </div>
+
+            {/* Search */}
+
+            <div className="topbar-search">
+
+                <Search size={18} />
+
+                <input
+                    type="text"
+                    placeholder="Search customers, bookings..."
+                />
+
+            </div>
+
+            {/* Right */}
+
+            <div className="topbar-right">
+
+                <button className="topbar-icon">
+                    <Bell size={19} />
+                </button>
+
+                <button className="topbar-icon">
+                    <Settings size={19} />
+                </button>
+
+                <div className="profile">
+
+                    <div className="user-avatar">
+                        {initials}
+                    </div>
+
+                    <div>
+
+                        <h4>{userName}</h4>
+
+                        <span>Super Admin</span>
+
+                    </div>
+
+                    <ChevronDown size={18} />
+
+                </div>
+
+            </div>
+
+        </header>
+
+    );
+
 }
 
 export default Topbar;

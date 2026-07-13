@@ -1,9 +1,11 @@
 function Button({
     text,
+    children,
     type = "button",
     variant = "primary",
     onClick,
-    disabled = false
+    disabled = false,
+    loading = false
 }) {
 
     return (
@@ -12,10 +14,10 @@ function Button({
             type={type}
             className={`btn btn-${variant}`}
             onClick={onClick}
-            disabled={disabled}
+            disabled={disabled || loading}
         >
 
-            {text}
+            {loading ? "Please wait..." : (children || text)}
 
         </button>
 

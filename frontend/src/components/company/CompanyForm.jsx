@@ -12,6 +12,8 @@ function CompanyForm() {
 
     const [company, setCompany] = useState({
         companyName: "",
+        tagline: "",
+        logo: "",
         gst: "",
         email: "",
         phone: "",
@@ -21,6 +23,27 @@ function CompanyForm() {
         state: "",
         pincode: ""
     });
+
+    const handleLogoUpload = (event) => {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+
+        setCompany((prev) => ({
+            ...prev,
+            logo: reader.result,
+        }));
+
+    };
+
+    reader.readAsDataURL(file);
+
+};
 
     useEffect(() => {
 
@@ -68,6 +91,40 @@ alert("Company saved successfully.");
                 onSubmit={handleSubmit}
             >
 
+                <div className="company-logo-upload">
+
+   <div className="company-logo-preview">
+
+    {company.logo ? (
+
+        <img
+            src={company.logo}
+            alt="Company Logo"
+        />
+
+    ) : (
+
+        "🏢"
+
+    )}
+
+</div>
+
+ <label className="upload-logo-btn">
+
+    Upload Company Logo
+
+  <input
+    type="file"
+    accept="image/*"
+    hidden
+    onChange={handleLogoUpload}
+/>
+
+</label>
+
+</div>
+
                 <Input
                     label="Company Name"
                     name="companyName"
@@ -75,6 +132,14 @@ alert("Company saved successfully.");
                     onChange={handleChange}
                     placeholder="Harihar Car Carriers"
                 />
+
+                <Input
+    label="Tagline"
+    name="tagline"
+    value={company.tagline}
+    onChange={handleChange}
+    placeholder="Transport Management System"
+/>
 
                 <Input
                     label="GST Number"

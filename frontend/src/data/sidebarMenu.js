@@ -12,6 +12,9 @@ import {
   MdAssessment,
   MdSettings,
   MdLogout,
+  MdGroup,
+  MdRequestQuote,
+  MdReceiptLong,
 } from "react-icons/md";
 
 export const sidebarMenu = [
@@ -25,47 +28,39 @@ export const sidebarMenu = [
   {
     section: "OPERATIONS",
     items: [
-      { title: "Quotation", icon: MdDescription, path: "#" },
-      { title: "Booking", icon: MdAssignment, path: "#" },
-      { title: "Pickup", icon: MdLocalShipping, path: "#" },
-      { title: "Loading", icon: MdInventory, path: "#" },
-      { title: "Bilty", icon: MdDescription, path: "#" },
+      { title: "Quotations", icon: MdRequestQuote, path: "/quotations" },
+      { title: "Bookings", icon: MdAssignment, path: "/bookings" },
+      { title: "Pickups", icon: MdLocalShipping, path: "/pickups" },
+      { title: "Loading", icon: MdInventory, path: "/loading" },
+      { title: "Bilties", icon: MdDescription, path: "/bilties" },
+      { title: "Invoices", icon: MdReceiptLong, path: "/invoices" },
     ],
   },
 
   {
     section: "MANAGEMENT",
     items: [
-      { title: "Customers", icon: MdPeople, path: "#" },
-      { title: "Vehicles", icon: MdDirectionsCar, path: "#" },
-      { title: "Drivers", icon: MdPerson, path: "#" },
-      {
-    title: "Company",
-    icon: MdBusiness,
-    path: "/company",
-},
+      { title: "Customers", icon: MdPeople, path: "/customers" },
+      { title: "Vehicles", icon: MdDirectionsCar, path: "/vehicles" },
+      { title: "Drivers", icon: MdPerson, path: "/drivers" },
+      { title: "Company", icon: MdBusiness, path: "/company" },
+      { title: "Users", icon: MdGroup, path: "/users" },
     ],
   },
 
   {
     section: "FINANCE",
     items: [
-      { title: "Payments", icon: MdPayments, path: "#" },
-    ],
-  },
-
-  {
-    section: "REPORTS",
-    items: [
-      { title: "Reports", icon: MdAssessment, path: "#" },
+      { title: "Payments", icon: MdPayments, path: "/payments" },
+      { title: "Reports", icon: MdAssessment, path: "/reports" },
     ],
   },
 
   {
     section: "SETTINGS",
     items: [
-      { title: "Settings", icon: MdSettings, path: "#" },
-      { title: "Logout", icon: MdLogout, path: "#" },
+      { title: "Settings", icon: MdSettings, path: "/settings" },
+      { title: "Logout", icon: MdLogout, path: "/logout" },
     ],
   },
 ];

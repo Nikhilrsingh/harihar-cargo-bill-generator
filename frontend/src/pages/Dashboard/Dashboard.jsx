@@ -1,60 +1,67 @@
 import MainLayout from "../../layouts/MainLayout";
 
+import DashboardHeader from "../../components/dashboard/DashboardHeader";
 import StatCard from "../../components/dashboard/StatCard";
+import QuickActions from "../../components/dashboard/QuickActions";
+import RecentActivity from "../../components/dashboard/RecentActivity";
 
 import { dashboardStats } from "../../data/dashboardStats";
 
-import QuickActions from "../../components/dashboard/QuickActions";
-
-import RecentActivity from "../../components/dashboard/RecentActivity";
-
 function Dashboard() {
-  return (
-    <MainLayout>
+    return (
+        <MainLayout>
 
-      <div className="dashboard">
+            <div className="dashboard">
 
-        <div className="welcome-banner">
+                <DashboardHeader />
 
-          <div>
+                <div className="stats-grid">
 
-            <h1>Welcome Back 👋</h1>
+                    {dashboardStats.map((item) => (
 
-            <p>
-              Manage your transport business from one place.
-            </p>
+                        <StatCard
+                            key={item.title}
+                            title={item.title}
+                            value={item.value}
+                            icon={item.icon}
+                            color={item.color}
+                            bg={item.bg}
+                        />
 
-          </div>
+                    ))}
 
-        </div>
+                </div>
 
-        <div className="stats-grid">
+                <div className="dashboard-row">
 
-          {dashboardStats.map((item) => (
+                    <div className="dashboard-main">
 
-            <StatCard
-              key={item.title}
-              title={item.title}
-              value={item.value}
-              icon={item.icon}
-            />
+                        {/* Revenue Chart */}
 
-          ))}
+                        {/* Recent Bookings */}
 
-        </div>
+                    </div>
 
-        <div className="dashboard-bottom">
+                    <div className="dashboard-side">
 
-    <QuickActions />
+                        <QuickActions />
 
-    <RecentActivity />
+                        <RecentActivity />
 
-</div>
+                    </div>
 
-      </div>
+                </div>
 
-    </MainLayout>
-  );
+                <div className="dashboard-footer">
+
+                    {/* Pending Deliveries */}
+
+                </div>
+
+            </div>
+
+        </MainLayout>
+    );
 }
 
 export default Dashboard;

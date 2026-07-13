@@ -1,5 +1,6 @@
 import MainLayout from "../../layouts/MainLayout";
 import CompanyForm from "../../components/company/CompanyForm";
+import PageHeader from "../../components/common/PageHeader";
 
 function Company() {
     return (
@@ -7,7 +8,10 @@ function Company() {
 
             <div className="dashboard">
 
-                <h1>Company Profile</h1>
+                <PageHeader
+    title="Company Profile"
+    subtitle="Manage your company information."
+/>
 
                 <CompanyForm />
 
