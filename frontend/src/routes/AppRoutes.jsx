@@ -8,6 +8,7 @@ import Users from "../pages/Users/Users";
 import Vehicles from "../pages/Vehicles/Vehicles";
 import Drivers from "../pages/Drivers/Drivers";
 import Customers from "../pages/Customers/Customers";
+import Trailers from "../pages/Trailers/Trailers";
 
 function AppRoutes() {
     return (
@@ -50,6 +51,11 @@ function AppRoutes() {
             <Vehicles />
         </ProtectedRoute>
     }
+/>
+
+<Route
+    path="/trailers"
+    element={<Trailers />}
 />
 
 <Route

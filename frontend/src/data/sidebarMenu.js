@@ -42,6 +42,7 @@ export const sidebarMenu = [
     items: [
       { title: "Customers", icon: MdPeople, path: "/customers" },
       { title: "Vehicles", icon: MdDirectionsCar, path: "/vehicles" },
+      { title: "Trailers", path: "/trailers", icon: MdDirectionsCar, },
       { title: "Drivers", icon: MdPerson, path: "/drivers" },
       { title: "Company", icon: MdBusiness, path: "/company" },
       { title: "Users", icon: MdGroup, path: "/users" },
