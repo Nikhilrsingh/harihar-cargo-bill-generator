@@ -6,32 +6,30 @@ function Input({
     onChange,
     name,
     maxLength,
-    disabled = false
+    disabled = false,
+    required = false,
+    autoComplete,
+    min,
 }) {
 
     return (
 
         <div className="input-group">
 
-            {label && (
+            {label && <label>{label}</label>}
 
-                <label>
-
-                    {label}
-
-                </label>
-
-            )}
-
-           <input
-    type={type}
-    name={name}
-    placeholder={placeholder}
-    value={value}
-    onChange={onChange}
-    maxLength={maxLength}
-    disabled={disabled}
-/>
+            <input
+                type={type}
+                name={name}
+                placeholder={placeholder}
+                value={value}
+                onChange={onChange}
+                maxLength={maxLength}
+                disabled={disabled}
+                required={required}
+                autoComplete={autoComplete}
+                min={min}
+            />
 
         </div>
 

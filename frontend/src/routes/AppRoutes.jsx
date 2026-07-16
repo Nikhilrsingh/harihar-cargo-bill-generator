@@ -6,6 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Company from "../pages/Company/Company";
 import Users from "../pages/Users/Users";
 import Vehicles from "../pages/Vehicles/Vehicles";
+import Drivers from "../pages/Drivers/Drivers";
 import Customers from "../pages/Customers/Customers";
 
 function AppRoutes() {
@@ -47,6 +48,15 @@ function AppRoutes() {
     element={
         <ProtectedRoute>
             <Vehicles />
+        </ProtectedRoute>
+    }
+/>
+
+<Route
+    path="/drivers"
+    element={
+        <ProtectedRoute>
+            <Drivers />
         </ProtectedRoute>
     }
 />
