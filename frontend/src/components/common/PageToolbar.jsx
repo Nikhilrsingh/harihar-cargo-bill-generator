@@ -16,7 +16,7 @@ function PageToolbar({
             <SearchInput
     value={search}
     onChange={(e) => setSearch(e.target.value)}
-    placeholder="Search customers..."
+    placeholder={`Search ${buttonText.toLowerCase()}...`}
 />
 
             <Button

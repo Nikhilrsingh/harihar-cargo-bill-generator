@@ -1,314 +1,101 @@
-import { useEffect, useState } from "react";
-import Input from "../common/Input";
-import Button from "../common/Button";
-import { toast } from "react-toastify";
-import {
-    saveVehicle,
-    updateVehicle,
-    checkRegistrationExists,
-} from "../../services/vehicleService";
+import React, { useState, useEffect } from 'react';
+import { db } from '../../firebase/firebaseConfig';
+import { collection, addDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import Input from '../common/Input';
+import Button from '../common/Button';
 
-function VehicleForm({
-    selectedVehicle,
-    refreshVehicles,
-    onClose,
-}) {
+export default function VehicleForm({ onClose, initialData }) {
+  const [formData, setFormData] = useState({
+    plateNumber: '',
+    model: '',
+    type: 'Owned', // Default fallback option picker settings
+    status: 'Available'
+  });
+  const [errors, setErrors] = useState({});
 
-    const [vehicle, setVehicle] = useState({
-
-        registrationNumber: "",
-        vehicleNumber: "",
-        vehicleType: "",
-        capacity: "",
-        status: "Available",
-
-    });
-
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-
-    if (selectedVehicle) {
-
-        setVehicle(selectedVehicle);
-
-    } else {
-
-        setVehicle({
-            registrationNumber: "",
-            vehicleNumber: "",
-            vehicleType: "",
-            capacity: "",
-            status: "Available",
-        });
-
+  useEffect(() => {
+    if (initialData) {
+      setFormData({ ...initialData });
     }
+  }, [initialData]);
 
-}, [selectedVehicle]);
+  const validate = () => {
+    let tempErrors = {};
+    if (!formData.plateNumber) tempErrors.plateNumber = "Vehicle registration index license plate layout identifier is required.";
+    if (!formData.model) tempErrors.model = "Carrier chassis description or engine configuration brand required.";
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
 
-    const handleChange = (e) => {
-
-    const { name, value } = e.target;
-
-    setVehicle((prev) => ({
-
-        ...prev,
-
-        [name]:
-            name === "registrationNumber"
-                ? value.toUpperCase().trimStart()
-                : value.trimStart(),
-
-    }));
-
-};
-
-    const handleSubmit = async (e) => {
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!vehicle.registrationNumber.trim()) {
-
-    toast.error("Registration Number is required.");
-
-    return;
-
-}
-
-if (
-    !/^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$/.test(
-        vehicle.registrationNumber.toUpperCase()
-    )
-) {
-
-    toast.error("Enter a valid Registration Number.");
-
-    return;
-
-}
-
-if (!vehicle.vehicleNumber.trim()) {
-
-    toast.error("Vehicle Number is required.");
-
-    return;
-
-}
-
-if (!vehicle.vehicleType.trim()) {
-
-    toast.error("Vehicle Type is required.");
-
-    return;
-
-}
-
-if (!vehicle.capacity.trim()) {
-
-    toast.error("Capacity is required.");
-
-    return;
-
-}
-
-    if (!vehicle.registrationNumber.trim()) {
-
-        toast.error("Registration Number is required.");
-
-        return;
-
-    }
-
-    setLoading(true);
+    if (!validate()) return;
 
     try {
+      const payload = {
+        plateNumber: formData.plateNumber.toUpperCase(), // Clean normalization index formatting 
+        model: formData.model,
+        type: formData.type,
+        status: formData.status,
+        updatedAt: serverTimestamp()
+      };
 
-      const registrationExists = await checkRegistrationExists(
-    vehicle.registrationNumber.toUpperCase(),
-    selectedVehicle?.id
-);
-
-if (registrationExists) {
-
-    toast.error("Registration Number already exists.");
-
-    return;
-
-}
-
-if (selectedVehicle) {
-
-    await updateVehicle(
-        selectedVehicle.id,
-        vehicle
-    );
-
-    toast.success("Vehicle updated successfully.");
-    setLoading(false);
-
-} else {
-
-    await saveVehicle(vehicle);
-
-    toast.success("Vehicle added successfully.");
-    setLoading(false);
-
-}
-
-await refreshVehicles();
-
-        onClose();
-
-        setVehicle({
-            registrationNumber: "",
-            vehicleNumber: "",
-            vehicleType: "",
-            capacity: "",
-            status: "Available",
-        });
-
-    } catch (error) {
-
-        setLoading(false);
-
-        console.error(error);
-
-        toast.error("Failed to save vehicle.");
-
+      if (initialData) {
+        const docRef = doc(db, 'vehicles', initialData.id);
+        await updateDoc(docRef, payload);
+      } else {
+        payload.createdAt = serverTimestamp();
+        await addDoc(collection(db, 'vehicles'), payload);
+      }
+      onClose();
+    } catch (err) {
+      console.error("Fleet tracking data commit failure:", err);
     }
+  };
 
-};
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <Input 
+        label="License Number Plate Indicia (e.g. MH-12-HE-XXXX)" 
+        value={formData.plateNumber} 
+        onChange={e => setFormData({ ...formData, plateNumber: e.target.value })} 
+        error={errors.plateNumber} 
+      />
+      <Input 
+        label="Truck Specification Details (e.g. Tata Prima / 10-Car Trailer)" 
+        value={formData.model} 
+        onChange={e => setFormData({ ...formData, model: e.target.value })} 
+        error={errors.model} 
+      />
+      
+      <div className="flex flex-col space-y-1.5">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Fleet Assignment Category</label>
+        <select 
+          value={formData.type} 
+          onChange={e => setFormData({ ...formData, type: e.target.value })}
+          className="w-full border rounded-lg p-2.5 bg-white dark:bg-slate-800 text-sm border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white"
+        >
+          <option value="Owned">Company Owned Asset</option>
+          <option value="Attached">Market Vendor Attached Vehicle</option>
+        </select>
+      </div>
 
-    return (
+      <div className="flex flex-col space-y-1.5">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Deployment Allocation Availability Status</label>
+        <select 
+          value={formData.status} 
+          onChange={e => setFormData({ ...formData, status: e.target.value })}
+          className="w-full border rounded-lg p-2.5 bg-white dark:bg-slate-800 text-sm border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white"
+        >
+          <option value="Available">Available (Docked at Yard)</option>
+          <option value="In Transit">In Transit (Active Logistics Loop)</option>
+          <option value="Maintenance">Maintenance Workshop Layover</option>
+        </select>
+      </div>
 
-    <form
-    className="vehicle-form"
-    onSubmit={handleSubmit}
->
-
-        <div className="form-section">
-
-            <h3 className="section-title">
-                Basic Information
-            </h3>
-
-            <div className="form-grid">
-
-               <Input
-    label="Registration Number"
-    name="registrationNumber"
-    value={vehicle.registrationNumber}
-    onChange={(e) => {
-
-        handleChange({
-            target: {
-                name: "registrationNumber",
-                value: e.target.value
-                    .toUpperCase()
-                    .replace(/[^A-Z0-9]/g, ""),
-            },
-        });
-
-    }}
-    maxLength={10}
-/>
-
-                <Input
-    label="Vehicle Number"
-    name="vehicleNumber"
-    value={vehicle.vehicleNumber}
-    onChange={(e) => {
-
-        handleChange({
-            target: {
-                name: "vehicleNumber",
-                value: e.target.value.toUpperCase(),
-            },
-        });
-
-    }}
-/>
-
-                <Input
-                    label="Vehicle Type"
-                    name="vehicleType"
-                    value={vehicle.vehicleType}
-                    onChange={handleChange}
-                />
-
-                <Input
-    label="Capacity"
-    name="capacity"
-    value={vehicle.capacity}
-    onChange={(e) => {
-
-        const value = e.target.value.replace(/\D/g, "");
-
-        handleChange({
-            target: {
-                name: "capacity",
-                value,
-            },
-        });
-
-    }}
-    maxLength={2}
-/>
-
-                <div className="input-group">
-
-    <label>Status</label>
-
-    <select
-        name="status"
-        value={vehicle.status}
-        onChange={handleChange}
-    >
-
-        <option value="Available">Available</option>
-
-        <option value="On Trip">On Trip</option>
-
-        <option value="Maintenance">Maintenance</option>
-
-        <option value="Inactive">Inactive</option>
-
-    </select>
-
-</div>
-
-            </div>
-
-        </div>
-
-        <div className="drawer-footer">
-
-    <Button
-    text="Cancel"
-    variant="secondary"
-    type="button"
-    onClick={onClose}
-/>
-
-  <Button
-    text={loading ? "Saving Vehicle..." : "Save Vehicle"}
-    type="submit"
-    loading={loading}
-    disabled={
-        loading ||
-        !vehicle.registrationNumber.trim() ||
-        !vehicle.vehicleNumber.trim() ||
-        !vehicle.vehicleType.trim() ||
-        !vehicle.capacity.trim()
-    }
-/>
-
-</div>
-
+      <Button type="submit" variant="primary" className="w-full py-3 text-sm font-semibold tracking-wide shadow-sm mt-4">
+        {initialData ? 'Save System Profiling Parameters' : 'Register Vehicle Profile'}
+      </Button>
     </form>
-
-);
-
+  );
 }
-
-export default VehicleForm;

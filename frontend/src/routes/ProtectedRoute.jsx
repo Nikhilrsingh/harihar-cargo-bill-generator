@@ -1,24 +1,23 @@
-import { Navigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useCompany } from '../context/CompanyContext';
 
-function ProtectedRoute({ children }) {
-    const [user, setUser] = useState(undefined);
+export default function ProtectedRoute({ permissionKey }) {
+  const { currentUser } = useCompany();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        });
+  if (!currentUser) {
+    return <Navigate to="/login" replace />;
+  }
 
-        return () => unsubscribe();
-    }, []);
+  // 👑 ADMIN BYPASS RULE: If they are the super admin, let them see everything unconditionally
+  if (currentUser.role === 'super_admin') {
+    return <Outlet />;
+  }
 
-    if (user === undefined) {
-        return <h2>Loading...</h2>;
-    }
+  // Feature-level check for standard staff accounts
+  if (permissionKey && currentUser?.permissions && !currentUser.permissions[permissionKey]) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
-    return user ? children : <Navigate to="/" replace />;
+  return <Outlet />;
 }
-
-export default ProtectedRoute;

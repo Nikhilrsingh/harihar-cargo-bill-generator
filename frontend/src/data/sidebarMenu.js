@@ -30,7 +30,11 @@ export const sidebarMenu = [
     items: [
       { title: "Quotations", icon: MdRequestQuote, path: "/quotations" },
       { title: "Bookings", icon: MdAssignment, path: "/bookings" },
-      { title: "Pickups", icon: MdLocalShipping, path: "/pickups" },
+      {
+    title: "Pickup",
+    path: "/pickups",
+    icon: MdLocalShipping,
+},
       { title: "Loading", icon: MdInventory, path: "/loading" },
       { title: "Bilties", icon: MdDescription, path: "/bilties" },
       { title: "Invoices", icon: MdReceiptLong, path: "/invoices" },

@@ -1,75 +1,53 @@
-import { useState } from "react";
-
-import MainLayout from "../../layouts/MainLayout";
-
-import PageHeader from "../../components/common/PageHeader";
-import PageToolbar from "../../components/common/PageToolbar";
-
-import DriverDrawer from "../../components/drivers/DriverDrawer";
-import DriverTable from "../../components/drivers/DriverTable";
-
-import useDrivers from "../../hooks/useDrivers";
+import React, { useState } from 'react';
+import PageHeader from '../../components/common/PageHeader';
+import PageToolbar from '../../components/common/PageToolbar';
+import DataTable from '../../components/common/DataTable';
 
 function Drivers() {
+    const [drivers, setDrivers] = useState([
+        { id: 1, name: "Amit Kumar", license: "DL-IND312024", phone: "9855512345", status: "Active" },
+        { id: 2, name: "Rajesh Yadav", license: "DL-IND402025", phone: "9855567890", status: "On Leave" }
+    ]);
+    const [loading] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const { drivers, loading, refreshDrivers } = useDrivers();
+    const columns = [
+        { header: 'Driver Name', accessor: 'name' },
+        { header: 'License Number', accessor: 'license' },
+        { header: 'Phone Number', accessor: 'phone' },
+        { header: 'Status', accessor: 'status' }
+    ];
 
-    const [search, setSearch] = useState("");
-
-    const [openDrawer, setOpenDrawer] = useState(false);
-
-    const [selectedDriver, setSelectedDriver] = useState(null);
-
-    return (
-
-        <MainLayout>
-
-            <div className="dashboard">
-
-                <PageHeader
-                    title="Drivers"
-                    subtitle="Manage all transport Drivers."
-                />
-
-                <PageToolbar
-                    search={search}
-                    setSearch={setSearch}
-                    buttonText="Add Driver"
-                    onButtonClick={() => {
-
-                        setSelectedDriver(null);
-
-                        setOpenDrawer(true);
-
-                    }}
-                />
-
-                <DriverTable
-    drivers={drivers}
-    loading={loading}
-    search={search}
-    refreshDrivers={refreshDrivers}
-   onEdit={(driver) => {
-    setSelectedDriver(driver);
-
-        setOpenDrawer(true);
-
-    }}
-/>
-
-               <DriverDrawer
-    open={openDrawer}
-    onClose={() => setOpenDrawer(false)}
-    refreshDrivers={refreshDrivers}
-    Driver={selectedDriver}
-/>
-
-            </div>
-
-        </MainLayout>
-
+    const filteredDrivers = drivers.filter(d =>
+        d.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        d.license?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const handleDelete = (id) => {
+        setDrivers(prev => prev.filter(d => d.id !== id));
+    };
+
+    return (
+        <div className="space-y-6">
+            <PageHeader 
+                title="Driver Register" 
+                subtitle="Manage operator assignments, verification records, and availability logs."
+            />
+            <PageToolbar 
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                onAddNew={() => alert("Add Driver form coming soon!")}
+                buttonText="Add Driver"
+            />
+            <DataTable 
+                data={filteredDrivers} 
+                columns={columns}
+                loading={loading}
+                onEdit={(d) => alert(`Editing: ${d.name}`)}
+                onDelete={handleDelete}
+            />
+        </div>
+    );
 }
 
 export default Drivers;

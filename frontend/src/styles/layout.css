@@ -378,3 +378,83 @@
     font-size:13px;
 
 }
+
+/* ==========================================
+   PRODUCTION READY SYSTEM LAYOUT GRID
+   ========================================== */
+
+/* Main layout wrapper configuration */
+.dashboard-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+/* Sidebar dimension alignment system */
+.sidebar {
+  width: 260px; /* Sidebar ki static framework width */
+  min-width: 260px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  background-color: #0f172a; /* Aapke sidebar ka dark background setup */
+}
+
+/* Main window element layout setup */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin-left: 260px; /* 👈 Yeh clear layout banata hai sidebar ke right side se start hone ke liye */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top Navigation Bar alignment mapping */
+.topbar {
+  width: 100%;
+  height: 70px; /* System defined topbar framework height */
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Inner Page core display dashboard content container layout framework */
+.content-body {
+  flex: 1;
+  width: 100%;
+  margin-top: 70px; /* 👈 Yeh perfect gap deta hai bina topbar ke peeche ghuse */
+  padding: 24px;
+  overflow-y: auto; /* Content scroll yahan handle hoga pure panel framework ke andar */
+  height: calc(100vh - 70px);
+}
+
+/* Custom Webkit scrollbar logic for clean modern look */
+.content-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.content-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
